@@ -34,6 +34,7 @@ public class ClientPersonalRecordController {
 
     @GetMapping("/personalRecord/{id}")
     public String getPersonalRecord(@PathVariable int id, Model model) {
+        logger.debug("*** getPersonalRecord *** is requested to microservice-PersonalRecord");
         PersonalRecordBean personalRecordBean = personalRecordProxy.getPatientInfo(id).get();
         model.addAttribute("personalRecordBean", personalRecordBean);
         return "personalRecord";
@@ -46,6 +47,7 @@ public class ClientPersonalRecordController {
 
     @GetMapping("/personalRecord/update/{id}")
     public String updatePatientInfo(@PathVariable int id, Model model) {
+        logger.debug("*** updatePatientInfo *** is requested to microservice-PersonalRecord");
         PersonalRecordBean personalRecordBean = personalRecordProxy.updatePatientInfo(id).get();
         model.addAttribute("personalRecordBean", personalRecordBean);
         return "personalRecordUpdate";
@@ -53,6 +55,7 @@ public class ClientPersonalRecordController {
 
     @GetMapping("/personalRecord/delete/{id}")
     public String deletePatientInfo_submit(@PathVariable int id) {
+        logger.debug("*** deletePatientInfo *** is requested to microservice-PersonalRecord");
         personalRecordProxy.deletePatientInfo(id);
         return "redirect:/";
     }
@@ -64,13 +67,14 @@ public class ClientPersonalRecordController {
     public String createPatientInfo_submit(@Valid PersonalRecordBean personalRecordBean, BindingResult result, Model model) {
         logger.debug("POST personalRecordBean: {}", personalRecordBean.toString());
 
-        //TODO fix if statement -> constraint validation
         if (!result.hasErrors()) {
-            logger.debug("Send request to microservice-PersonalRecord");
+            logger.debug("*** createPatientInfo_submit *** is requested to microservice-PersonalRecord");
             personalRecordProxy.createPatientInfo_submit(personalRecordBean);
             model.addAttribute("patients", personalRecordProxy.getPatientList());
             return "redirect:/";
         }
+
+        logger.info("Try to send invalid request");
         return "personalRecordAdd";
     }
 
@@ -80,7 +84,7 @@ public class ClientPersonalRecordController {
 
         if (!result.hasErrors()) {
             personalRecordBean.setId(id);
-            logger.debug("Send request to microservice-PersonalRecord");
+            logger.debug("*** updatePatientInfo_Submit *** is requested to microservice-PersonalRecord");
             personalRecordProxy.updatePatientInfo_Submit(personalRecordBean);
             model.addAttribute("patient", personalRecordBean);
             return "redirect:/personalRecord/{id}";
