@@ -10,17 +10,17 @@
             <h1><a th:href="@{/}">Application Mediscreen</a></h1>
 
             <h2>Personal record</h2>
-            <p>Firstname: <span th:text="${patient.firstname}"></span></p>
-            <p>Lastname: <span th:text="${patient.lastname}"></span></p>
-            <p>Sex: <span th:text="${patient.sex}"></span></p>
-            <p>Birthdate: <span th:text="${patient.birthdate}"></span></p>
-            <p>Address: <span th:text="${patient.address}"></span></p>
-            <p>Phone: <span th:text="${patient.phone}"></span></p>
+            <p>Firstname: <span th:text="${personalRecordBean.firstname}"></span></p>
+            <p>Lastname: <span th:text="${personalRecordBean.lastname}"></span></p>
+            <p>Sex: <span th:text="${personalRecordBean.sex}"></span></p>
+            <p>Birthdate: <span th:text="${personalRecordBean.birthdate}"></span></p>
+            <p>Address: <span th:text="${personalRecordBean.address}"></span></p>
+            <p>Phone: <span th:text="${personalRecordBean.phone}"></span></p>
 
             <p></p>
 
-            <a th:href="@{/personalRecord/update/{id}(id=${patient.Id})}">Edit</a>&nbsp;|&nbsp;
-            <a th:href="@{/personalRecord/delete/{id}(id=${patient.Id})}">Delete</a>
+            <a th:href="@{/personalRecord/update/{id}(id=${personalRecordBean.Id})}">Edit</a>&nbsp;|&nbsp;
+            <a th:href="@{/personalRecord/delete/{id}(id=${personalRecordBean.Id})}">Delete</a>
 
         </div>
         <script type="text/javascript" src="http://localhost:8080/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>

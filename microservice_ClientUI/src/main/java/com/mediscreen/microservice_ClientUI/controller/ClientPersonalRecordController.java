@@ -2,6 +2,7 @@ package com.mediscreen.microservice_ClientUI.controller;
 
 import com.mediscreen.microservice_ClientUI.beans.PersonalRecordBean;
 import com.mediscreen.microservice_ClientUI.proxy.PersonalRecordProxy;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -35,20 +35,19 @@ public class ClientPersonalRecordController {
     @GetMapping("/personalRecord/{id}")
     public String getPersonalRecord(@PathVariable int id, Model model) {
         PersonalRecordBean personalRecordBean = personalRecordProxy.getPatientInfo(id).get();
-        model.addAttribute("patient", personalRecordBean);
+        model.addAttribute("personalRecordBean", personalRecordBean);
         return "personalRecord";
     }
 
     @GetMapping("personalRecord/add")
-    public String addPatientInfo(PersonalRecordBean patient, Model model) {
-        model.addAttribute("patient", patient);
+    public String addPatientInfo(PersonalRecordBean personalRecordBean) {
         return "personalRecordAdd";
     }
 
     @GetMapping("/personalRecord/update/{id}")
     public String updatePatientInfo(@PathVariable int id, Model model) {
         PersonalRecordBean personalRecordBean = personalRecordProxy.updatePatientInfo(id).get();
-        model.addAttribute("patient", personalRecordBean);
+        model.addAttribute("personalRecordBean", personalRecordBean);
         return "personalRecordUpdate";
     }
 
@@ -62,13 +61,13 @@ public class ClientPersonalRecordController {
 
     // postMapping methods
     @PostMapping("/personalRecord/validate")
-    public String createPatientInfo_submit(@Valid PersonalRecordBean patient, BindingResult result, Model model) {
-        logger.debug("POST personalRecordBean: {}", patient.toString());
+    public String createPatientInfo_submit(@Valid PersonalRecordBean personalRecordBean, BindingResult result, Model model) {
+        logger.debug("POST personalRecordBean: {}", personalRecordBean.toString());
 
         //TODO fix if statement -> constraint validation
         if (!result.hasErrors()) {
             logger.debug("Send request to microservice-PersonalRecord");
-            personalRecordProxy.createPatientInfo_submit(patient);
+            personalRecordProxy.createPatientInfo_submit(personalRecordBean);
             model.addAttribute("patients", personalRecordProxy.getPatientList());
             return "redirect:/";
         }
@@ -76,17 +75,18 @@ public class ClientPersonalRecordController {
     }
 
     @PostMapping("/personalRecord/update/{id}")
-    public String updatePatientInfo_Submit(@PathVariable int id, @Valid PersonalRecordBean patient, BindingResult result, Model model) {
-        logger.debug("POST personalRecordBean: {}", patient.toString());
+    public String updatePatientInfo_Submit(@PathVariable int id, @Valid PersonalRecordBean personalRecordBean, BindingResult result, Model model) {
+        logger.debug("POST personalRecordBean: {}", personalRecordBean.toString());
 
-        //TODO fix if statement constraint validation
         if (!result.hasErrors()) {
-            patient.setId(id);
+            personalRecordBean.setId(id);
             logger.debug("Send request to microservice-PersonalRecord");
-            personalRecordProxy.updatePatientInfo_Submit(patient);
-            model.addAttribute("patient", patient);
+            personalRecordProxy.updatePatientInfo_Submit(personalRecordBean);
+            model.addAttribute("patient", personalRecordBean);
             return "redirect:/personalRecord/{id}";
         }
-        return "redirect:/personalRecord/update/{id}";
+
+        logger.info("Try to send invalid request");
+        return "personalRecordUpdate";
     }
 }

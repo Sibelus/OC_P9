@@ -12,7 +12,7 @@
 
 
         <div class="row">
-            <form action="#" th:action="@{/personalRecord/update/{id}(id=${patient.Id})}" th:object="${patient}" method="post" class="form-horizontal" style="width: 100%">
+            <form action="#" th:action="@{/personalRecord/update/{id}(id=${personalRecordBean.Id})}" th:object="${personalRecordBean}" method="post" class="form-horizontal" style="width: 100%">
                 <!-- fields -->
                 <div class="form-group">
                     <label for="firstname" class="col-sm-2 control-label">Firstname</label>
