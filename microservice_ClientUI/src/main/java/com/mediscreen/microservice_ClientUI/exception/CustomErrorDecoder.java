@@ -12,7 +12,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
         logger.info("Error intercepted with response status: {}", response.status());
-        if (response.status() > 400 && response.status() <=499) {
+        if (response.status() == 400 ) {
             return new PersonalRecordNotFoundException("Invalid request");
         }
         return defaultErrorDecoder.decode(s, response);
