@@ -1,11 +1,12 @@
 package com.mediscreen.microservice_PersonnalReccord.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
 
 @Entity
@@ -31,15 +32,13 @@ public class PersonalRecord {
     @Column(name = "birthdate")
     private Date birthdate;
 
-    @NotBlank(message = "sex is mandatory")
+    @Pattern(regexp = "[MF]", message = "sex is mandatory and must be F or M")
     @Column(name = "sex")
     private String sex;
 
-    @NotBlank(message = "address is mandatory")
     @Column(name = "address")
     private String address;
 
-    @NotBlank(message = "phone is mandatory")
     @Column(name = "phone")
     private String phone;
 

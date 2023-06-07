@@ -1,11 +1,8 @@
 package com.mediscreen.microservice_ClientUI.beans;
 
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
 
 
@@ -14,11 +11,11 @@ public class PersonalRecordBean {
     @NotNull
     private int Id;
 
-    @NotEmpty
+    //@NotEmpty
     @NotBlank(message = "firstname is mandatory")
     private String firstname;
 
-    @NotEmpty
+    //@NotEmpty
     @NotBlank(message = "lastname is mandatory")
     private String lastname;
 
@@ -27,16 +24,11 @@ public class PersonalRecordBean {
     @NotNull(message = "birthdate is mandatory")
     private Date birthdate;
 
-    @NotEmpty
-    @NotBlank(message = "sex is mandatory")
+    @Pattern(regexp = "[MF]", message = "sex is mandatory and must be F or M")
     private String sex;
 
-    @NotEmpty
-    @NotBlank(message = "address is mandatory")
     private String address;
 
-    @NotEmpty
-    @NotBlank(message = "phone is mandatory")
     private String phone;
 
 
