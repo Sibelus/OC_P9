@@ -60,14 +60,14 @@ public class PersonalRecordController {
     // PostMapping methods
     @PostMapping("/personalRecord/validate")
     public ResponseEntity<PersonalRecord> createPatientInfo_submit(@RequestBody PersonalRecord personalRecord) {
-        logger.debug("Create request body contains, {}", personalRecord.toString());
+        logger.info("Create request body contains, {}", personalRecord.toString());
         iPersonalRecordService.addPatientInfo(personalRecord);
         return new ResponseEntity<PersonalRecord>(personalRecord, HttpStatus.CREATED);
     }
 
     @PostMapping("/personalRecord/update")
     public ResponseEntity<PersonalRecord> updatePatientInfo_Submit(@RequestBody PersonalRecord personalRecord) {
-        logger.debug("Update request body contains, {}", personalRecord.toString());
+        logger.info("Update request body contains, {}", personalRecord.toString());
         iPersonalRecordService.updatePatientInfo(personalRecord);
         return new ResponseEntity<PersonalRecord>(personalRecord, HttpStatus.OK);
     }
