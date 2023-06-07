@@ -1,0 +1,11 @@
+package com.mediscreen.microservice_ClientUI.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class PersonalRecordNotFoundException extends RuntimeException {
+    public PersonalRecordNotFoundException(String message) {
+        super(message);
+    }
+}
