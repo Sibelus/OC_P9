@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Mediscreen</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1><a th:href="@{/}">Application Mediscreen</a></h1>
+      <p class="text-danger">Error message: You try to send an un-authorise request<span th:text="${errorMessage}"></span></p>
+    </div>
+  <script type="text/javascript" src="http://localhost:8080/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+  </body>
+</html>
