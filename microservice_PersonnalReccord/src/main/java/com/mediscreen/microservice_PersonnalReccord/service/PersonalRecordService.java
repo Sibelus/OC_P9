@@ -28,8 +28,8 @@ public class PersonalRecordService implements IPersonalRecordService {
 
     @Override
     public Optional<PersonalRecord> getPatientInfos(int id) {
-        logger.debug("Get personal record id: {}", id);
         Optional<PersonalRecord> patientInfo = personalRecordRepository.findById(id);
+        logger.debug("Personal record id is present in database: {}", patientInfo.isPresent());
         return patientInfo;
     }
 
