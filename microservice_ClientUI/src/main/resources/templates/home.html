@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Mediscreen</title>
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Application Mediscreen</h1>
+
+            <a class="btn btn-primary btn-sm" href="personalRecord/add">Create personal record</a>
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patient : ${patients}">
+                    <td style="width: 10%" th:text="${patient.id}"></td>
+                    <td th:text="${patient.firstname}"></td>
+                    <td th:text="${patient.lastname}"></td>
+                    <td style="width: 15%" class="text-center">
+                        <a th:href="@{/personalRecord/{id}(id=${patient.id})}">Consult</a>&nbsp;|&nbsp;
+                        <a th:href="@{/personalRecord/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{/personalRecord/delete/{id}(id=${patient.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+    </body>
+</html>
