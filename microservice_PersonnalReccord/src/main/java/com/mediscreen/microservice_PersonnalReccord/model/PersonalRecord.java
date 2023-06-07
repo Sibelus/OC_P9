@@ -1,7 +1,11 @@
 package com.mediscreen.microservice_PersonnalReccord.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
 
 @Entity
@@ -13,24 +17,46 @@ public class PersonalRecord {
     @Column(name = "id")
     private int Id;
 
+    @NotBlank(message = "firstname is mandatory")
     @Column(name = "firstname")
     private String firstname;
 
+    @NotBlank(message = "lastname is mandatory")
     @Column(name = "lastname")
     private String lastname;
 
+    @PastOrPresent
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "birthdate is mandatory")
     @Column(name = "birthdate")
     private Date birthdate;
 
+    @NotBlank(message = "sex is mandatory")
     @Column(name = "sex")
     private String sex;
 
+    @NotBlank(message = "address is mandatory")
     @Column(name = "address")
     private String address;
 
+    @NotBlank(message = "phone is mandatory")
     @Column(name = "phone")
     private String phone;
 
+
+    // toString method
+    @Override
+    public String toString() {
+        return "PersonalRecord{" +
+                "Id=" + Id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birthdate=" + birthdate +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 
 
     // getters & setters
