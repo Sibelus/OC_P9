@@ -11,8 +11,8 @@ CREATE TABLE personalrecord (
 `lastname` VARCHAR(100) NOT NULL,
 `birthdate` DATE NOT NULL,
 `sex` VARCHAR(1) NOT NULL,
-`address` VARCHAR(100) NOT NULL,
-`phone` VARCHAR(100) NOT NULL,
+`address` VARCHAR(100),
+`phone` VARCHAR(100),
 PRIMARY KEY (`id`)
 );
 
