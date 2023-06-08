@@ -42,7 +42,7 @@ public class ControllerTest {
 
     /* ------- PersonalRecordController ------- */
     @Test
-    public void testGetError() throws Exception {
+    public void testGet_Error() throws Exception {
         mockMvc.perform(get("/error")).andExpect(status().isOk());
     }
 
@@ -50,14 +50,14 @@ public class ControllerTest {
 
     /* ------- PersonalRecordController ------- */
     @Test
-    public void testGetAccueil() throws Exception {
+    public void testGet_Accueil() throws Exception {
         mockMvc.perform(get("/")).andExpect(status().isOk());
     }
 
 
     // GET personal record
     @Test
-    public void testGetPersonalRecordById() throws Exception {
+    public void testGet_PersonalRecordById() throws Exception {
         PersonalRecordBean personalRecordBean = new PersonalRecordBean();
         personalRecordBean.setId(1);
         personalRecordBean.setFirstname("Steff");
@@ -71,17 +71,24 @@ public class ControllerTest {
         mockMvc.perform(get("/personalRecord/1")).andExpect(status().isOk());
     }
 
+    @Test
+    public void testGet_PersonalRecordById_NonExistentId() throws Exception {
+        when(personalRecordProxy.getPatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
+        mockMvc.perform(get("/personalRecord/1"))
+                .andExpect(status().is4xxClientError());
+    }
+
 
     // GET create new personal record
     @Test
-    public void testGetPersonalRecordAdd() throws Exception {
+    public void testGet_PersonalRecordAdd() throws Exception {
         mockMvc.perform(get("/personalRecord/add")).andExpect(status().isOk());
     }
 
 
     // GET update personal record
     @Test
-    public void testGetPersonalRecordUpdateById() throws Exception {
+    public void testGet_UpdatePersonalRecordById() throws Exception {
         PersonalRecordBean personalRecordBean = new PersonalRecordBean();
         personalRecordBean.setId(1);
         personalRecordBean.setFirstname("Steff");
@@ -96,7 +103,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testGetPersonalRecordUpdateById_NonExistentId() throws Exception {
+    public void testGet_UpdatePersonalRecordById_NonExistentId() throws Exception {
         when(personalRecordProxy.updatePatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
         mockMvc.perform(get("/personalRecord/update/1"))
                 .andExpect(status().is4xxClientError());
@@ -105,14 +112,14 @@ public class ControllerTest {
 
     // GET delete personal record
     @Test
-    public void testDeletePersonalRecordById() throws Exception {
+    public void testGet_DeletePersonalRecordById() throws Exception {
         mockMvc.perform(get("/personalRecord/delete/1")).andExpect(status().is3xxRedirection());
     }
 
 
     // POST create new personal record
     @Test
-    public void testPostNewPersonalRecord() throws Exception {
+    public void testPost_NewPersonalRecord() throws Exception {
         mockMvc.perform(post("/personalRecord/validate")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -125,7 +132,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostNewPersonalRecord_WithEmptyFields() throws Exception {
+    public void testPost_NewPersonalRecord_WithEmptyFields() throws Exception {
         mockMvc.perform(post("/personalRecord/validate")
                         .param("firstname", "")
                         .param("lastname", "")
@@ -141,7 +148,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostNewPersonalRecord_WithBirthdateInFuture() throws Exception {
+    public void testPost_NewPersonalRecord_WithBirthdateInFuture() throws Exception {
         mockMvc.perform(post("/personalRecord/validate")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -154,7 +161,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostNewPersonalRecord_WithWrongBirthdateFormat() throws Exception {
+    public void testPost_NewPersonalRecord_WithWrongBirthdateFormat() throws Exception {
         mockMvc.perform(post("/personalRecord/validate")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -167,7 +174,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostNewPersonalRecord_WithWrongSexFormat() throws Exception {
+    public void testPost_NewPersonalRecord_WithWrongSexFormat() throws Exception {
         mockMvc.perform(post("/personalRecord/validate")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -182,7 +189,7 @@ public class ControllerTest {
 
     // POST update personal record
     @Test
-    public void testPostUpdatePersonalRecordById() throws Exception {
+    public void testPost_UpdatePersonalRecordById() throws Exception {
         mockMvc.perform(post("/personalRecord/update/1")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -195,7 +202,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostUpdatePersonalRecordById_WithEmptyFields() throws Exception {
+    public void testPost_UpdatePersonalRecordById_WithEmptyFields() throws Exception {
         mockMvc.perform(post("/personalRecord/update/1")
                         .param("firstname", "")
                         .param("lastname", "")
@@ -211,7 +218,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostUpdatePersonalRecordById_WithBirthdateInFuture() throws Exception {
+    public void testPost_UpdatePersonalRecordById_WithBirthdateInFuture() throws Exception {
         mockMvc.perform(post("/personalRecord/update/1")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -224,7 +231,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostUpdatePersonalRecordById_WithWrongBirthdateFormat() throws Exception {
+    public void testPost_UpdatePersonalRecordById_WithWrongBirthdateFormat() throws Exception {
         mockMvc.perform(post("/personalRecord/update/1")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
@@ -237,7 +244,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void testPostUpdatePersonalRecordById_WithWrongSexFormat() throws Exception {
+    public void testPost_UpdatePersonalRecordById_WithWrongSexFormat() throws Exception {
         mockMvc.perform(post("/personalRecord/update/1")
                         .param("firstname", "Steff")
                         .param("lastname", "Bihaille")
