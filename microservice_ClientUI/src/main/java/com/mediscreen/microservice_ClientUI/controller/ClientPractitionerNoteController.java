@@ -28,7 +28,9 @@ public class ClientPractitionerNoteController {
     @GetMapping("/patHistory/{patId}")
     public String getPatientNotes(@PathVariable("patId") String patId, Model model) {
         List<PractitionerNoteBean> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(patId);
+        int patId_int = Integer.valueOf(patId);
         model.addAttribute("practitionerNoteBeans", practitionerNoteBeans);
+        model.addAttribute("patId_int", patId_int);
         return "practitionerNote/notes";
     }
 
