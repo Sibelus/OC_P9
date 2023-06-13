@@ -37,12 +37,12 @@ public class ClientPersonalRecordController {
         logger.debug("*** getPersonalRecord *** is requested to microservice-PersonalRecord");
         PersonalRecordBean personalRecordBean = personalRecordProxy.getPatientInfo(id).get();
         model.addAttribute("personalRecordBean", personalRecordBean);
-        return "personalRecord";
+        return "personalRecord/get";
     }
 
     @GetMapping("personalRecord/add")
     public String addPatientInfo(PersonalRecordBean personalRecordBean) {
-        return "personalRecordAdd";
+        return "personalRecord/add";
     }
 
     @GetMapping("/personalRecord/update/{id}")
@@ -50,7 +50,7 @@ public class ClientPersonalRecordController {
         logger.debug("*** updatePatientInfo *** is requested to microservice-PersonalRecord");
         PersonalRecordBean personalRecordBean = personalRecordProxy.updatePatientInfo(id).get();
         model.addAttribute("personalRecordBean", personalRecordBean);
-        return "personalRecordUpdate";
+        return "personalRecord/update";
     }
 
     @GetMapping("/personalRecord/delete/{id}")
@@ -75,7 +75,7 @@ public class ClientPersonalRecordController {
         }
 
         logger.info("Try to send invalid request");
-        return "personalRecordAdd";
+        return "personalRecord/add";
     }
 
     @PostMapping("/personalRecord/update/{id}")
@@ -91,6 +91,6 @@ public class ClientPersonalRecordController {
         }
 
         logger.info("Try to send invalid request");
-        return "personalRecordUpdate";
+        return "personalRecord/update";
     }
 }
