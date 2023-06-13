@@ -1,8 +1,8 @@
 package com.mediscreen.microservice_PractitionerNote.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,8 +12,9 @@ public class PractitionerNote {
     private String id;
     private String patId;
     private String content;
+
     @PastOrPresent
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
 
