@@ -1,8 +1,11 @@
 package com.mediscreen.microservice_ClientUI.controller;
 
 import com.mediscreen.microservice_ClientUI.beans.PersonalRecordBean;
+import com.mediscreen.microservice_ClientUI.beans.PractitionerNoteBean;
 import com.mediscreen.microservice_ClientUI.exception.PersonalRecordNotFoundException;
+import com.mediscreen.microservice_ClientUI.exception.PractitionerNoteNotFoundException;
 import com.mediscreen.microservice_ClientUI.proxy.PersonalRecordProxy;
+import com.mediscreen.microservice_ClientUI.proxy.PractitionerNoteProxy;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -29,6 +34,8 @@ public class ControllerTest {
     private WebApplicationContext context;
     @MockBean
     private PersonalRecordProxy personalRecordProxy;
+    @MockBean
+    private PractitionerNoteProxy practitionerNoteProxy;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -40,7 +47,7 @@ public class ControllerTest {
 
 
 
-    /* ------- PersonalRecordController ------- */
+    /* ------- ErrorController ------- */
     @Test
     public void testGet_Error() throws Exception {
         mockMvc.perform(get("/error")).andExpect(status().isOk());
@@ -254,5 +261,105 @@ public class ControllerTest {
                         .param("phone", "111-222-3333"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(model().attributeHasFieldErrorCode("personalRecordBean", "sex", "Pattern"));
+    }
+
+
+
+
+
+    /* ------- PractitionerNoteController ------- */
+    @Test
+    public void testGet_testGet_PractitionerNotesByPatId() throws Exception {
+        List<PractitionerNoteBean> practitionerNoteBeans = new ArrayList<>();
+        when(practitionerNoteProxy.getPatientNotes("1")).thenReturn(practitionerNoteBeans);
+        mockMvc.perform(get("/patHistory/1")).andExpect(status().isOk());
+    }
+
+
+    // GET practitioner note
+    @Test
+    public void testGet_PractitionerNoteById() throws Exception {
+        PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
+        practitionerNoteBean.setId("1010101010");
+        practitionerNoteBean.setPatId("1");
+        practitionerNoteBean.setDate(new Date());
+        practitionerNoteBean.setContent("test content");
+        when(practitionerNoteProxy.getPatientNote("1")).thenReturn(Optional.of(practitionerNoteBean));
+
+        mockMvc.perform(get("/patHistory/get/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGet_PractitionerNoteById_NonExistentId() throws Exception {
+        when(practitionerNoteProxy.getPatientNote("1")).thenThrow(PractitionerNoteNotFoundException.class);
+        mockMvc.perform(get("/patHistory/get/1")).andExpect(status().is4xxClientError());
+    }
+
+
+    // GET create new personal record
+    @Test
+    public void testGet_PractitionerNoteAdd() throws Exception {
+        mockMvc.perform(get("/patHistory/add")).andExpect(status().isOk());
+    }
+
+
+    // GET update practitioner note
+    @Test
+    public void testGet_UpdatePractitionerNoteById() throws Exception {
+        PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
+        practitionerNoteBean.setId("1010101010");
+        practitionerNoteBean.setPatId("1");
+        practitionerNoteBean.setDate(new Date());
+        practitionerNoteBean.setContent("test content");
+        when(practitionerNoteProxy.getUpdatePatientNote("1")).thenReturn(Optional.of(practitionerNoteBean));
+
+        mockMvc.perform(get("/patHistory/update/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGet_UpdatePractitionerNote() throws Exception {
+        when(practitionerNoteProxy.getUpdatePatientNote("1")).thenThrow(PractitionerNoteNotFoundException.class);
+        mockMvc.perform(get("/patHistory/update/1")).andExpect(status().is4xxClientError());
+    }
+
+
+    // GET delete practitioner note
+    @Test
+    public void testGet_DeletePractitionerNoteById() throws Exception {
+        PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
+        practitionerNoteBean.setId("1010101010");
+        practitionerNoteBean.setPatId("1");
+        practitionerNoteBean.setDate(new Date());
+        practitionerNoteBean.setContent("test content");
+        when(practitionerNoteProxy.getPatientNote("1")).thenReturn(Optional.of(practitionerNoteBean));
+        mockMvc.perform(get("/patHistory/delete/1")).andExpect(status().is3xxRedirection());
+    }
+
+
+    // POST create new practitioner note
+    @Test
+    public void testPost_NewPractitionerNote() throws Exception {
+        mockMvc.perform(post("/patHistory/add")
+                        .param("content", "test content")
+                        .param("patId", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(header().string("Location", "/patHistory/1"));
+    }
+
+
+    // POST create new practitioner note
+    @Test
+    public void testPost_UpdatePractitionerNote() throws Exception {
+        PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
+        practitionerNoteBean.setId("1010101010");
+        practitionerNoteBean.setPatId("1");
+        practitionerNoteBean.setDate(new Date());
+        practitionerNoteBean.setContent("test content");
+        when(practitionerNoteProxy.getPatientNote("1")).thenReturn(Optional.of(practitionerNoteBean));
+
+        mockMvc.perform(post("/patHistory/update/1")
+                        .param("content", "test content updated"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(header().string("Location", "/patHistory/1"));
     }
 }

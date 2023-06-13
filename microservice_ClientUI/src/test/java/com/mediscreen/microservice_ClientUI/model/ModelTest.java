@@ -1,6 +1,7 @@
 package com.mediscreen.microservice_ClientUI.model;
 
 import com.mediscreen.microservice_ClientUI.beans.PersonalRecordBean;
+import com.mediscreen.microservice_ClientUI.beans.PractitionerNoteBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -47,5 +48,34 @@ public class ModelTest {
         Assertions.assertEquals(address, personalRecordBean.getAddress());
         Assertions.assertEquals(phone, personalRecordBean.getPhone());
         Assertions.assertEquals(toString, personalRecordBean.toString());
+    }
+
+    @Test
+    public void testPractitionerNoteBean_SetAndGetInfo() {
+        //GIVEN
+        PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
+        String id = "1";
+        String patId = "1";
+        String content = "test content";
+        Date date = new Date();
+        String toString = "PractitionerNoteBean{" +
+                "id='" + id + '\'' +
+                ", patId='" + patId + '\'' +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                '}';
+
+        //WHEN
+        practitionerNoteBean.setId(id);
+        practitionerNoteBean.setPatId(patId);
+        practitionerNoteBean.setContent(content);
+        practitionerNoteBean.setDate(date);
+
+        //THEN
+        Assertions.assertEquals(id, practitionerNoteBean.getId());
+        Assertions.assertEquals(patId, practitionerNoteBean.getPatId());
+        Assertions.assertEquals(content, practitionerNoteBean.getContent());
+        Assertions.assertEquals(date, practitionerNoteBean.getDate());
+        Assertions.assertEquals(toString, practitionerNoteBean.toString());
     }
 }
