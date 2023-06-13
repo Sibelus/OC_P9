@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mediscreen</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+</head>
+
+<body>
+<div class="container">
+    <h1><a th:href="@{/}">Application Mediscreen</a></h1>
+
+    <h2>Practitioner note for: <span th:text="${practitionerNoteBean.patId}"></span></h2>
+    <p>Date: <span th:text="${practitionerNoteBean.date}"></span></p>
+    <p>Content: <span th:text="${practitionerNoteBean.content}"></span></p>
+
+    <p></p>
+
+    <a th:href="@{/patHistory/update/{id}(id=${practitionerNoteBean.Id})}">Edit</a>&nbsp;|&nbsp;
+    <a th:href="@{/patHistory/delete/{id}(id=${practitionerNoteBean.Id})}">Delete</a>
+
+</div>
+<script type="text/javascript" src="http://localhost:8080/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+</body>
+</html>

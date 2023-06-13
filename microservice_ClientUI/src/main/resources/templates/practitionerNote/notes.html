@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mediscreen</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+</head>
+
+<body>
+<div class="container">
+    <h1><a th:href="@{/}">Application Mediscreen</a></h1>
+
+    <a class="btn btn-primary btn-sm" href="/patHistory/add">New note</a>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="practitionerNoteBean : ${practitionerNoteBeans}">
+
+                <td style="width: 10%" th:text="${practitionerNoteBean.date}"></td>
+                <td th:text="${practitionerNoteBean.content}"></td>
+            </a>
+            <td style="width: 15%" class="text-center">
+                <a th:href="@{/patHistory/get/{id}(id=${practitionerNoteBean.id})}">Consult</a>&nbsp;|&nbsp;
+                <a th:href="@{/patHistory/update/{id}(id=${practitionerNoteBean.id})}">Edit</a>&nbsp;|&nbsp;
+                <a th:href="@{/patHistory/delete/{id}(id=${practitionerNoteBean.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script type="text/javascript" src="http://localhost:8080/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+</body>
+</html>
