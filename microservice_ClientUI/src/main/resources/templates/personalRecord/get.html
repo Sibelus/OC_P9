@@ -9,7 +9,10 @@
         <div class="container">
             <h1><a th:href="@{/}">Application Mediscreen</a></h1>
 
-            <h2>Personal record</h2>
+            <a class="btn btn-primary btn-sm" th:href="@{/patHistory/{patId}(patId=${personalRecordBean.Id})}">Practitioner note</a>
+
+            <p></p>
+
             <p>Firstname: <span th:text="${personalRecordBean.firstname}"></span></p>
             <p>Lastname: <span th:text="${personalRecordBean.lastname}"></span></p>
             <p>Sex: <span th:text="${personalRecordBean.sex}"></span></p>

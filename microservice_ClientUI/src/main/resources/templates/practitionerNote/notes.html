@@ -10,6 +10,9 @@
     <h1><a th:href="@{/}">Application Mediscreen</a></h1>
 
     <a class="btn btn-primary btn-sm" href="/patHistory/add">New note</a>
+    <a class="btn btn-primary btn-sm" th:href="@{/personalRecord/{id}(id=${patId_int})}">Personal record</a>
+
+    <p></p>
 
     <table class="table table-bordered">
         <thead>
@@ -24,7 +27,6 @@
 
                 <td style="width: 10%" th:text="${practitionerNoteBean.date}"></td>
                 <td th:text="${practitionerNoteBean.content}"></td>
-            </a>
             <td style="width: 15%" class="text-center">
                 <a th:href="@{/patHistory/get/{id}(id=${practitionerNoteBean.id})}">Consult</a>&nbsp;|&nbsp;
                 <a th:href="@{/patHistory/update/{id}(id=${practitionerNoteBean.id})}">Edit</a>&nbsp;|&nbsp;
