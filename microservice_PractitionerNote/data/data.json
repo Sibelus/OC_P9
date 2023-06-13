@@ -1,34 +1,41 @@
 [
   {
-  "patId": 1,
-  "content": "Le patient déclare qu'il « se sent très bien »\nPoids égal ou inférieur au poids recommandé"
+    "patId": "1",
+    "content": "Le patient déclare qu'il « se sent très bien »\nPoids égal ou inférieur au poids recommandé",
+    "date": "2000-01-12"
   },
   {
-    "patId": 1,
-    "content": "Le patient déclare qu'il se sent fatigué pendant la journée\nIl se plaint également de douleurs musculaires\nTests de laboratoire indiquant une microalbumine élevée"
+    "patId": "1",
+    "content": "Le patient déclare qu'il se sent fatigué pendant la journée\nIl se plaint également de douleurs musculaires\nTests de laboratoire indiquant une microalbumine élevée",
+    "date": "2000-03-05"
   },
   {
-    "patId": 1,
-    "content": "Le patient déclare qu'il ne se sent pas si fatigué que ça\nFumeur, il a arrêté dans les 12 mois précédents\nTests de laboratoire indiquant que les anticorps sont élevés"
+    "patId": "1",
+    "content": "Le patient déclare qu'il ne se sent pas si fatigué que ça\nFumeur, il a arrêté dans les 12 mois précédents\nTests de laboratoire indiquant que les anticorps sont élevés",
+    "date": "2000-07-19"
   },
 
 
 
   {
-    "patId": 2,
-    "content": "Le patient déclare qu'il ressent beaucoup de stress au travail\nIl se plaint également que son audition est anormale dernièrement"
+    "patId": "2",
+    "content": "Le patient déclare qu'il ressent beaucoup de stress au travail\nIl se plaint également que son audition est anormale dernièrement",
+    "date": "2010-03-10"
   },
   {
-    "patId": 2,
-    "content": "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois\nIl remarque également que son audition continue d'être anormale"
+    "patId": "2",
+    "content": "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois\nIl remarque également que son audition continue d'être anormale",
+    "date": "2010-11-01"
   },
   {
-    "patId": 2,
-    "content": "Tests de laboratoire indiquant une microalbumine élevée"
+    "patId": "2",
+    "content": "Tests de laboratoire indiquant une microalbumine élevée",
+    "date": "2011-02-22"
   },
   {
-    "patId": 2,
-    "content": "Le patient déclare que tout semble aller bien\nLe laboratoire rapporte que l'hémoglobine A1C dépasse le niveau recommandé\nLe patient déclare qu’il fume depuis longtemps"
+    "patId": "2",
+    "content": "Le patient déclare que tout semble aller bien\nLe laboratoire rapporte que l'hémoglobine A1C dépasse le niveau recommandé\nLe patient déclare qu’il fume depuis longtemps",
+    "date": "2012-01-30"
   },
 
 
