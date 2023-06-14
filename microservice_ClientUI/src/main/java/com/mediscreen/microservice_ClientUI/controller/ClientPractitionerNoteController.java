@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ClientPractitionerNoteController {
@@ -28,8 +27,11 @@ public class ClientPractitionerNoteController {
     @GetMapping("/patHistory/{patId}")
     public String getPatientNotes(@PathVariable("patId") String patId, Model model) {
         List<PractitionerNoteBean> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(patId);
+        Collections.sort(practitionerNoteBeans, Collections.reverseOrder());
+
         int patId_int = Integer.valueOf(patId);
         model.addAttribute("practitionerNoteBeans", practitionerNoteBeans);
+        model.addAttribute("patId", patId);
         model.addAttribute("patId_int", patId_int);
         return "practitionerNote/notes";
     }
@@ -42,8 +44,8 @@ public class ClientPractitionerNoteController {
         return "practitionerNote/note";
     }
 
-    @GetMapping("/patHistory/add")
-    public String addPatientNote(PractitionerNoteBean practitionerNoteBean) {
+    @GetMapping("/patHistory/add/{patId}")
+    public String addPatientNote(@PathVariable("patId") String patId, PractitionerNoteBean practitionerNoteBean) {
         return "practitionerNote/add";
     }
 
@@ -65,12 +67,14 @@ public class ClientPractitionerNoteController {
 
 
     // postMapping methods
-    @PostMapping("/patHistory/add")
-    public String addPatientNote(@Valid PractitionerNoteBean practitionerNoteBean, BindingResult result, Model model) {
+    @PostMapping("/patHistory/add/{patId}")
+    public String addPatientNote(@PathVariable("patId") String patId, @Valid PractitionerNoteBean practitionerNoteBean, BindingResult result, Model model) {
         logger.debug("POST practitionerNoteBean: {}", practitionerNoteBean.toString());
+        model.addAttribute("patId", patId);
 
         if (!result.hasErrors()) {
             logger.debug("*** addPatientNote *** is requested to microservice-PractitionerNote");
+            practitionerNoteBean.setPatId(patId);
             practitionerNoteBean.setDate(new Date());
             practitionerNoteProxy.addPatientNote(practitionerNoteBean);
             return "redirect:/patHistory/" + practitionerNoteBean.getPatId();
