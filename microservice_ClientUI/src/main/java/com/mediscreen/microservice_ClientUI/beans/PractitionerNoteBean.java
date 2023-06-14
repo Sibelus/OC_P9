@@ -2,17 +2,15 @@ package com.mediscreen.microservice_ClientUI.beans;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.PastOrPresent;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-public class PractitionerNoteBean {
+public class PractitionerNoteBean implements Comparable<PractitionerNoteBean>{
 
     private String id;
     private String patId;
     private String content;
     @PastOrPresent
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
@@ -25,6 +23,15 @@ public class PractitionerNoteBean {
                 ", content='" + content + '\'' +
                 ", date=" + date +
                 '}';
+    }
+
+    /**
+     * method to compare NoteBean practitioners by their date value
+     * @param PractitionerNoteBean the object to be compared.
+     * @return
+     */
+    public int compareTo(PractitionerNoteBean PractitionerNoteBean) {
+        return this.date.compareTo(PractitionerNoteBean.date);
     }
 
 
