@@ -12,36 +12,15 @@
 
 
     <div class="row">
-        <form action="#" th:action="@{/patHistory/add}" th:object="${practitionerNoteBean}" method="post" class="form-horizontal" style="width: 100%">
+        <form action="#" th:action="@{/patHistory/add/{patId}(patId=${patId})}" th:object="${practitionerNoteBean}" method="post" class="form-horizontal" style="width: 100%">
             <!-- fields -->
-            <!--
-            <div class="form-group">
-                <label for="patId" class="col-sm-2 control-label">Content</label>
-                <div class="col-sm-10">
-                    <input type="text" th:field="*{patId}" id="patId" placeholder="patId" class="form-control">
-                    <p class="text-danger" th:if="${#fields.hasErrors('patId')}" th:errors="*{patId}"></p>
-                </div>
-
-                <select class="form-select" aria-label="Default select example" th:field="*{patId}" id="patId">
-                <option selected>Open this select menu</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-            </select>
-            </div> -->
-            <select class="form_select_friend" th:field="*{patId}">
-                <option type="text" th:value="1" th:text="1" name="patId"/>
-                <option type="text" th:value="2" th:text="2" name="patId"/>
-            </select>
-
-
-            <div class="form-group">
-                <label for="content" class="col-sm-2 control-label">Content</label>
-                <div class="col-sm-10">
-                    <input type="text" th:field="*{content}" id="content" placeholder="content" class="form-control">
-                    <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
-                </div>
+            <div class="form-floating">
+                <label for="content">Comments</label>
+                <textarea class="form-control" th:field="*{content}" id="content" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
             </div>
 
+            <p></p>
 
             <!-- buttons -->
             <div class="form-group">

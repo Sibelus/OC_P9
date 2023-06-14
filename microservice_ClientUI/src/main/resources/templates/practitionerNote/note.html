@@ -11,7 +11,7 @@
 
     <h2>Practitioner note for: <span th:text="${practitionerNoteBean.patId}"></span></h2>
     <p>Date: <span th:text="${practitionerNoteBean.date}"></span></p>
-    <p>Content: <span th:text="${practitionerNoteBean.content}"></span></p>
+    <textarea class="form-control" th:text="${practitionerNoteBean.content}" style="height: 80px; border-style: none"></textarea>
 
     <p></p>
 
