@@ -41,111 +41,133 @@
 
 
   {
-    "patId": 3,
-    "content": "Le patient déclare qu'il fume depuis peu"
+    "patId": "3",
+    "content": "Le patient déclare qu'il fume depuis peu",
+    "date": "2010-03-10"
   },
   {
-    "patId": 3,
-    "content": "Tests de laboratoire indiquant une microalbumine élevée"
+    "patId": "3",
+    "content": "Tests de laboratoire indiquant une microalbumine élevée",
+    "date": "2010-03-23"
   },
   {
-    "patId": 3,
-    "content": "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière\nIl se plaint également de crises d’apnée respiratoire anormales\nTests de laboratoire indiquant un taux de cholestérol LDL élevé"
+    "patId": "3",
+    "content": "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière\nIl se plaint également de crises d’apnée respiratoire anormales\nTests de laboratoire indiquant un taux de cholestérol LDL élevé",
+    "date": "2010-05-30"
   },
   {
-    "patId": 3,
-    "content": "Tests de laboratoire indiquant un taux de cholestérol LDL élevé"
-  },
-
-
-
-  {
-    "patId": 4,
-    "content": "Le patient déclare qu'il lui est devenu difficile de monter les escaliers\nIl se plaint également d’être essoufflé\nTests de laboratoire indiquant que les anticorps sont élevés\nRéaction aux médicaments"
-  },
-  {
-    "patId": 4,
-    "content": "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps"
-  },
-  {
-    "patId": 4,
-    "content": "Le patient déclare avoir commencé à fumer depuis peu\nHémoglobine A1C supérieure au niveau recommandé"
+    "patId": "3",
+    "content": "Tests de laboratoire indiquant un taux de cholestérol LDL élevé",
+    "date": "2010-11-05"
   },
 
 
 
   {
-    "patId": 5,
-    "content": "Le patient déclare avoir des douleurs au cou occasionnellement\nLe patient remarque également que certains aliments ont un goût différent\nRéaction apparente aux médicaments\nPoids corporel supérieur au poids recommandé"
+    "patId": "4",
+    "content": "Le patient déclare qu'il lui est devenu difficile de monter les escaliers\nIl se plaint également d’être essoufflé\nTests de laboratoire indiquant que les anticorps sont élevés\nRéaction aux médicaments",
+    "date": "2010-02-12"
   },
   {
-    "patId": 5,
-    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTaille incluse dans la fourchette concernée"
+    "patId": "4",
+    "content": "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps",
+    "date": "2010-03-10"
   },
   {
-    "patId": 5,
-    "content": "Le patient déclare qu'il souffre encore de douleurs cervicales occasionnelles\nTests de laboratoire indiquant une microalbumine élevée\nFumeur, il a arrêté dans les 12 mois précédents"
-  },
-  {
-    "patId": 5,
-    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTests de laboratoire indiquant que les anticorps sont élevés"
-  },
-
-
-
-  {
-    "patId": 6,
-    "content": "Le patient déclare qu'il se sent bien\nPoids corporel supérieur au poids recommandé"
-  },
-  {
-    "patId": 6,
-    "content": "Le patient déclare qu'il se sent bien"
+    "patId": "4",
+    "content": "Le patient déclare avoir commencé à fumer depuis peu\nHémoglobine A1C supérieure au niveau recommandé",
+    "date": "2010-06-16"
   },
 
 
 
   {
-    "patId": 7,
-    "content": "Le patient déclare qu'il se réveille souvent avec une raideur articulaire\nIl se plaint également de difficultés pour s’endormir\nPoids corporel supérieur au poids recommandé\nTests de laboratoire indiquant un taux de cholestérol LDL élevé"
-  },
-
-
-  {
-    "patId": 8,
-    "content": "Les tests de laboratoire indiquent que les anticorps sont élevés\nHémoglobine A1C supérieure au niveau recommandé"
-  },
-
-
-
-  {
-    "patId": 9,
-    "content": "Le patient déclare avoir de la difficulté à se concentrer sur ses devoirs scolaires\nHémoglobine A1C supérieure au niveau recommandé"
+    "patId": "5",
+    "content": "Le patient déclare avoir des douleurs au cou occasionnellement\nLe patient remarque également que certains aliments ont un goût différent\nRéaction apparente aux médicaments\nPoids corporel supérieur au poids recommandé",
+    "date": "2010-01-03"
   },
   {
-    "patId": 9,
-    "content": "Le patient déclare qu'il s’impatiente facilement en cas d’attente prolongée\nIl signale également que les produits du distributeur automatique ne sont pas bons\nTests de laboratoire signalant des taux anormaux de cellules sanguines"
+    "patId": "5",
+    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTaille incluse dans la fourchette concernée",
+    "date": "2010-04-12"
   },
   {
-    "patId": 9,
-    "content": "Le patient signale qu'il est facilement irrité par des broutilles\nIl déclare également que l'aspirateur des voisins fait trop de bruit\nTests de laboratoire indiquant que les anticorps sont élevés"
+    "patId": "5",
+    "content": "Le patient déclare qu'il souffre encore de douleurs cervicales occasionnelles\nTests de laboratoire indiquant une microalbumine élevée\nFumeur, il a arrêté dans les 12 mois précédents",
+    "date": "2010-07-14"
+  },
+  {
+    "patId": "5",
+    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTests de laboratoire indiquant que les anticorps sont élevés",
+    "date": "2010-09-11"
   },
 
 
 
   {
-    "patId": 10,
-    "content": "Le patient déclare qu'il n'a aucun problème"
+    "patId": "6",
+    "content": "Le patient déclare qu'il se sent bien\nPoids corporel supérieur au poids recommandé",
+    "date": "2012-08-04"
   },
   {
-    "patId": 10,
-    "content": "Le patient déclare qu'il n'a aucun problème\nTaille incluse dans la fourchette concernée\nHémoglobine A1C supérieure au niveau recommandé"
+    "patId": "6",
+    "content": "Le patient déclare qu'il se sent bien",
+    "date": "2013-01-20"
+  },
+
+
+
+  {
+    "patId": "7",
+    "content": "Le patient déclare qu'il se réveille souvent avec une raideur articulaire\nIl se plaint également de difficultés pour s’endormir\nPoids corporel supérieur au poids recommandé\nTests de laboratoire indiquant un taux de cholestérol LDL élevé",
+    "date": "2010-05-22"
+  },
+
+
+  {
+    "patId": "8",
+    "content": "Les tests de laboratoire indiquent que les anticorps sont élevés\nHémoglobine A1C supérieure au niveau recommandé",
+    "date": "2010-11-10"
+  },
+
+
+
+  {
+    "patId": "9",
+    "content": "Le patient déclare avoir de la difficulté à se concentrer sur ses devoirs scolaires\nHémoglobine A1C supérieure au niveau recommandé",
+    "date": "2018-05-06"
   },
   {
-    "patId": 10,
-    "content": "Le patient déclare qu'il n'a aucun problème\nPoids corporel supérieur au poids recommandé\nLe patient a signalé plusieurs épisodes de vertige depuis sa dernière visite"
+    "patId": "9",
+    "content": "Le patient déclare qu'il s’impatiente facilement en cas d’attente prolongée\nIl signale également que les produits du distributeur automatique ne sont pas bons\nTests de laboratoire signalant des taux anormaux de cellules sanguines",
+    "date": "2019-04-18"
   },
   {
-    "patId": 10,
-    "content": "Le patient déclare qu'il n'a aucun problème\nTests de laboratoire indiquant une microalbumine élevée"
+    "patId": "9",
+    "content": "Le patient signale qu'il est facilement irrité par des broutilles\nIl déclare également que l'aspirateur des voisins fait trop de bruit\nTests de laboratoire indiquant que les anticorps sont élevés",
+    "date": "2020-03-10"
+  },
+
+
+
+  {
+    "patId": "10",
+    "content": "Le patient déclare qu'il n'a aucun problème",
+    "date": "2010-03-10"
+  },
+  {
+    "patId": "10",
+    "content": "Le patient déclare qu'il n'a aucun problème\nTaille incluse dans la fourchette concernée\nHémoglobine A1C supérieure au niveau recommandé",
+    "date": "2010-05-12"
+  },
+  {
+    "patId": "10",
+    "content": "Le patient déclare qu'il n'a aucun problème\nPoids corporel supérieur au poids recommandé\nLe patient a signalé plusieurs épisodes de vertige depuis sa dernière visite",
+    "date": "2010-07-18"
+  },
+  {
+    "patId": "10",
+    "content": "Le patient déclare qu'il n'a aucun problème\nTests de laboratoire indiquant une microalbumine élevée",
+    "date": "2010-11-12"
   }
 ]
