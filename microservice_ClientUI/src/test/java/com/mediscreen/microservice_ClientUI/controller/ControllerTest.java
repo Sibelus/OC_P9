@@ -269,7 +269,7 @@ public class ControllerTest {
 
     /* ------- PractitionerNoteController ------- */
     @Test
-    public void testGet_testGet_PractitionerNotesByPatId() throws Exception {
+    public void testGet_PractitionerNotesByPatId() throws Exception {
         List<PractitionerNoteBean> practitionerNoteBeans = new ArrayList<>();
         when(practitionerNoteProxy.getPatientNotes("1")).thenReturn(practitionerNoteBeans);
         mockMvc.perform(get("/patHistory/1")).andExpect(status().isOk());
@@ -347,7 +347,7 @@ public class ControllerTest {
     }
 
 
-    // POST create new practitioner note
+    // POST update practitioner note
     @Test
     public void testPost_UpdatePractitionerNote() throws Exception {
         PractitionerNoteBean practitionerNoteBean = new PractitionerNoteBean();
