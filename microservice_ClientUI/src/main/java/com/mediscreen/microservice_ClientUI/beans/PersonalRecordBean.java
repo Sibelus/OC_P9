@@ -11,11 +11,9 @@ public class PersonalRecordBean {
     @NotNull
     private int Id;
 
-    //@NotEmpty
     @NotBlank(message = "firstname is mandatory")
     private String firstname;
 
-    //@NotEmpty
     @NotBlank(message = "lastname is mandatory")
     private String lastname;
 
