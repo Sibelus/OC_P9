@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "microservice-PersonalRecord", url = "localhost:9001")
+@FeignClient(name = "microservice-PersonalRecord", url = "localhost:8081")
 public interface PersonalRecordProxy {
 
     // getMapping methods
