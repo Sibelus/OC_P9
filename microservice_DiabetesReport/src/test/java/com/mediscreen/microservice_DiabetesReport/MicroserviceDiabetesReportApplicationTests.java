@@ -1,4 +1,4 @@
-package com.mediscreen.microservice_DiabetReport;
+package com.mediscreen.microservice_DiabetesReport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
