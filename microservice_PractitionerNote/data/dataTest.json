@@ -1,0 +1,76 @@
+[
+  {
+    "patId": "1",
+    "content": "Le patient déclare qu'il se sent bien\nIl se plaint de difficultés pour s’endormir",
+    "date": "2022-08-04"
+  },
+  {
+    "patId": "1",
+    "content": "Le patient déclare qu'il se sent bien",
+    "date": "2023-01-20"
+  },
+
+
+
+  {
+    "patId": "2",
+    "content": "Le patient déclare avoir des douleurs au cou occasionnellement\nLe patient remarque également que certains aliments ont un goût différent\nRéaction apparente aux médicaments\nPoids corporel supérieur à l'IMC",
+    "date": "2022-01-03"
+  },
+  {
+    "patId": "2",
+    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTaille incluse dans la fourchette concernée",
+    "date": "2022-04-12"
+  },
+  {
+    "patId": "2",
+    "content": "Tests de laboratoire indiquant que les anticorps sont élevés",
+    "date": "2022-09-11"
+  },
+
+
+
+  {
+    "patId": "3",
+    "content": "Tests de laboratoire indiquant une microalbumine élevée",
+    "date": "2022-03-23"
+  },
+  {
+    "patId": "3",
+    "content": "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière\nIl se plaint également de crises d’apnée respiratoire",
+    "date": "2022-05-30"
+  },
+  {
+    "patId": "3",
+    "content": "Tests de laboratoire indiquant un taux de cholestérol LDL élevé",
+    "date": "2022-11-05"
+  },
+
+
+
+  {
+    "patId": "4",
+    "content": "Les tests de laboratoire indiquent que les anticorps sont élevés\nHémoglobine A1C supérieure au niveau recommandé",
+    "date": "2022-11-10"
+  },
+  {
+    "patId": "4",
+    "content": "Le patient déclare avoir des douleurs au cou occasionnellement\nLe patient remarque également que certains aliments ont un goût différent\nRéaction apparente aux médicaments\nPoids corporel supérieur au poids recommandé",
+    "date": "2022-01-03"
+  },
+  {
+    "patId": "4",
+    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTaille incluse dans la fourchette concernée",
+    "date": "2022-04-12"
+  },
+  {
+    "patId": "4",
+    "content": "Le patient déclare qu'il souffre encore de douleurs cervicales occasionnelles\nTests de laboratoire indiquant une microalbumine élevée\nFumeur, il a arrêté dans les 12 mois précédents",
+    "date": "2022-07-14"
+  },
+  {
+    "patId": "4",
+    "content": "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTests de laboratoire indiquant que les anticorps sont élevés",
+    "date": "2022-09-11"
+  }
+]
