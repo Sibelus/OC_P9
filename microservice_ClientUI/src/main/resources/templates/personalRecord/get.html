@@ -9,7 +9,18 @@
         <div class="container">
             <h1><a th:href="@{/}">Application Mediscreen</a></h1>
 
-            <a class="btn btn-primary btn-sm" th:href="@{/patHistory/{patId}(patId=${personalRecordBean.Id})}">Practitioner note</a>
+            <div style="width: 345px">
+                <div class="row justify-content-start">
+                    <div class="col-4">
+                        <a class="btn btn-primary btn-sm" th:href="@{/patHistory/{patId}(patId=${personalRecordBean.Id})}">Practitioner note</a>
+                    </div>
+                    <div class="col-4">
+                        <form th:action="@{/assess/id}" method="post">
+                            <button class="btn btn-primary btn-sm" type="submit" th:name="patId" th:value="${personalRecordBean.Id}">Diabetes assess</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <p></p>
 
