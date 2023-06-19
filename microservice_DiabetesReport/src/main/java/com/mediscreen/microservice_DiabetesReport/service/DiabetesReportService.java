@@ -38,11 +38,31 @@ public class DiabetesReportService implements IDiabetesReportService {
      */
     @Override
     public List<DiabetesInfo> getDiabetesInfoList() {
+        logger.debug("*** getPatientList *** is requested to microservice-PersonalRecord");
         List<PersonalRecordBean> personalRecordBeans = personalRecordProxy.getPatientList();
         List<DiabetesInfo> diabetesInfos = new ArrayList<>();
 
         for (PersonalRecordBean personalRecordBean : personalRecordBeans) {
-            DiabetesInfo diabetesInfo = getDiabetesInfo(personalRecordBean.getId());
+            //DiabetesInfo diabetesInfo = getDiabetesInfo(personalRecordBean.getId());
+            //diabetesInfos.add(diabetesInfo);
+
+            DiabetesInfo diabetesInfo = new DiabetesInfo();
+            diabetesInfo.setPatientId(personalRecordBean.getId());
+            diabetesInfo.setBirthdate(personalRecordBean.getBirthdate());
+            diabetesInfo.setSex(personalRecordBean.getSex());
+
+            logger.debug("*** getPatientNotes *** is requested to microservice-PractitionerNote");
+            Optional<List<PractitionerNoteBean>> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(String.valueOf(personalRecordBean.getId()));
+            if (practitionerNoteBeans.isPresent()) {
+                List<String> notes = new ArrayList<>();
+                for (PractitionerNoteBean practitionerNoteBean : practitionerNoteBeans.get()) {
+                    notes.add(practitionerNoteBean.getContent());
+                }
+                diabetesInfo.setNotes(notes);
+            } else {
+                diabetesInfo.setNotes(new ArrayList<>());
+            }
+
             diabetesInfos.add(diabetesInfo);
         }
 
@@ -61,7 +81,9 @@ public class DiabetesReportService implements IDiabetesReportService {
     @Override
     public DiabetesInfo getDiabetesInfo(int id) {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
+        logger.debug("*** getPersonalRecord *** is requested to microservice-PersonalRecord");
         Optional<PersonalRecordBean> personalRecordBean = personalRecordProxy.getPatientInfo(id);
+        logger.debug("*** getPatientNotes *** is requested to microservice-PractitionerNote");
         Optional<List<PractitionerNoteBean>> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(String.valueOf(id));
 
         if (personalRecordBean.isPresent()) {
@@ -95,18 +117,22 @@ public class DiabetesReportService implements IDiabetesReportService {
         String sex = diabetesInfo.getSex();
 
         if ((sex.equals("M") && age < 30 && triggerCount >= 5) || (sex.equals("F") && age < 30 && triggerCount >= 7)) {
-            return "Patient: Test TestEarlyOnset (age" + age +") diabetes assessment is: Early onset";
+            logger.info("Patient sex: {}, age: {} & number of trigger: {} -> diabetes assessment: Early onset", sex, age, triggerCount);
+            return "Patient: Test TestEarlyOnset (age " + age +") diabetes assessment is: Early onset";
         }
         if ((sex.equals("M") && age < 30 && triggerCount >= 3) || (sex.equals("F") && age < 30 && triggerCount >= 4) || (age > 30 && triggerCount >= 6)) {
-            return "Patient: Test TestInDanger (age" + age +") diabetes assessment is: In danger";
+            logger.info("Patient sex: {}, age: {} & number of trigger: {} -> diabetes assessment: In danger", sex, age, triggerCount);
+            return "Patient: Test TestInDanger (age " + age +") diabetes assessment is: In danger";
         }
         if (age > 30 && triggerCount >= 2) {
-            return "Patient: Test TestBorderline (age" + age +") diabetes assessment is: Borderline";
+            logger.info("Patient age: {} & number of trigger: {} -> diabetes assessment: Borderline", age, triggerCount);
+            return "Patient: Test TestBorderline (age " + age +") diabetes assessment is: Borderline";
         }
         if (triggerCount == 0) {
-            return "Patient: Test TestNone (age" + age +") diabetes assessment is: None";
+            logger.info("Patient number of trigger: {} -> diabetes assessment: None", triggerCount);
+            return "Patient: Test TestNone (age " + age +") diabetes assessment is: None";
         }
-        return "Patient: Test TestUndefined (age" + age +") diabetes assessment is: Undefined";
+        return "Patient: Test TestUndefined (age " + age +") diabetes assessment is: Undefined";
     }
 
     /**
@@ -122,6 +148,7 @@ public class DiabetesReportService implements IDiabetesReportService {
         for (DiabetesInfo diabetesInfo : diabetesInfoList) {
             String diabetesAssessment = diabetesAssessment(diabetesInfo);
             if (diabetesAssessment.contains(riskLevel)) {
+                logger.debug("Patient id: {} match to risk level: {}", diabetesInfo.getPatientId(), riskLevel);
                 diabetesAssessments.add(diabetesAssessment);
             }
         }
@@ -161,6 +188,9 @@ public class DiabetesReportService implements IDiabetesReportService {
         for (String trigger : triggers) {
             for (String note : diabetesInfo.getNotes()) {
                 int count = StringUtils.countMatches(note.toLowerCase(), trigger);
+                if (count > 0) {
+                    logger.debug("--- {} --- is a trigger detected in patient notes", trigger);
+                }
                 triggerCount += count;
             }
         }
