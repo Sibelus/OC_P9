@@ -1,6 +1,7 @@
 package com.mediscreen.microservice_ClientUI.controller;
 
 import com.mediscreen.microservice_ClientUI.beans.PersonalRecordBean;
+import com.mediscreen.microservice_ClientUI.exception.PersonalRecordNotFoundException;
 import com.mediscreen.microservice_ClientUI.proxy.PersonalRecordProxy;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -35,9 +36,15 @@ public class ClientPersonalRecordController {
     @GetMapping("/personalRecord/{id}")
     public String getPersonalRecord(@PathVariable int id, Model model) {
         logger.debug("*** getPersonalRecord *** is requested to microservice-PersonalRecord");
-        PersonalRecordBean personalRecordBean = personalRecordProxy.getPatientInfo(id).get();
-        model.addAttribute("personalRecordBean", personalRecordBean);
-        return "personalRecord/get";
+        try {
+            PersonalRecordBean personalRecordBean = personalRecordProxy.getPatientInfo(id).get();
+            model.addAttribute("personalRecordBean", personalRecordBean);
+            return "personalRecord/get";
+        } catch (PersonalRecordNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
     @GetMapping("personalRecord/add")
@@ -48,16 +55,28 @@ public class ClientPersonalRecordController {
     @GetMapping("/personalRecord/update/{id}")
     public String updatePatientInfo(@PathVariable int id, Model model) {
         logger.debug("*** updatePatientInfo *** is requested to microservice-PersonalRecord");
-        PersonalRecordBean personalRecordBean = personalRecordProxy.updatePatientInfo(id).get();
-        model.addAttribute("personalRecordBean", personalRecordBean);
-        return "personalRecord/update";
+        try {
+            PersonalRecordBean personalRecordBean = personalRecordProxy.updatePatientInfo(id).get();
+            model.addAttribute("personalRecordBean", personalRecordBean);
+            return "personalRecord/update";
+        } catch (PersonalRecordNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
     @GetMapping("/personalRecord/delete/{id}")
-    public String deletePatientInfo_submit(@PathVariable int id) {
+    public String deletePatientInfo_submit(@PathVariable int id, Model model) {
         logger.debug("*** deletePatientInfo *** is requested to microservice-PersonalRecord");
-        personalRecordProxy.deletePatientInfo(id);
-        return "redirect:/";
+        try {
+            personalRecordProxy.deletePatientInfo(id);
+            return "redirect:/";
+        } catch (PersonalRecordNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
 

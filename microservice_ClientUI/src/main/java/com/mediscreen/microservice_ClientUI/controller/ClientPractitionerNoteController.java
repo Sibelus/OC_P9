@@ -1,6 +1,8 @@
 package com.mediscreen.microservice_ClientUI.controller;
 
 import com.mediscreen.microservice_ClientUI.beans.PractitionerNoteBean;
+import com.mediscreen.microservice_ClientUI.exception.PersonalRecordNotFoundException;
+import com.mediscreen.microservice_ClientUI.exception.PractitionerNoteNotFoundException;
 import com.mediscreen.microservice_ClientUI.proxy.PractitionerNoteProxy;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -39,9 +41,15 @@ public class ClientPractitionerNoteController {
     @GetMapping("/patHistory/get/{id}")
     public String getPatientNote(@PathVariable String id, Model model) {
         logger.debug("*** getPatientNote *** is requested to microservice-PractitionerNote");
-        PractitionerNoteBean practitionerNoteBean = practitionerNoteProxy.getPatientNote(id).get();
-        model.addAttribute("practitionerNoteBean", practitionerNoteBean);
-        return "practitionerNote/note";
+        try {
+            PractitionerNoteBean practitionerNoteBean = practitionerNoteProxy.getPatientNote(id).get();
+            model.addAttribute("practitionerNoteBean", practitionerNoteBean);
+            return "practitionerNote/note";
+        } catch (PractitionerNoteNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
     @GetMapping("/patHistory/add/{patId}")
@@ -52,17 +60,29 @@ public class ClientPractitionerNoteController {
     @GetMapping("/patHistory/update/{id}")
     public String getUpdatePatientNote(@PathVariable String id, Model model) {
         logger.debug("*** updatePatientNote *** is requested to microservice-PractitionerNote");
-        PractitionerNoteBean practitionerNoteBean = practitionerNoteProxy.getUpdatePatientNote(id).get();
-        model.addAttribute("practitionerNoteBean", practitionerNoteBean);
-        return "practitionerNote/update";
+        try {
+            PractitionerNoteBean practitionerNoteBean = practitionerNoteProxy.getUpdatePatientNote(id).get();
+            model.addAttribute("practitionerNoteBean", practitionerNoteBean);
+            return "practitionerNote/update";
+        } catch (PractitionerNoteNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
     @GetMapping("/patHistory/delete/{id}")
-    public String getDeletePatientNote(@PathVariable String id) {
+    public String getDeletePatientNote(@PathVariable String id, Model model) {
         logger.debug("*** deletePatientNote *** is requested to microservice-PractitionerNote");
-        String patId = practitionerNoteProxy.getPatientNote(id).get().getPatId();
-        practitionerNoteProxy.getDeletePatientNote(id);
-        return "redirect:/patHistory/" + patId;
+        try {
+            practitionerNoteProxy.getDeletePatientNote(id);
+            String patId = practitionerNoteProxy.getPatientNote(id).get().getPatId();
+            return "redirect:/patHistory/" + patId;
+        }  catch (PractitionerNoteNotFoundException e ) {
+            String errorMessage = (e.getMessage());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error";
+        }
     }
 
 
