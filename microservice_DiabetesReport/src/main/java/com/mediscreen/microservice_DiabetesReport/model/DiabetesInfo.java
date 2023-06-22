@@ -9,6 +9,8 @@ import java.util.List;
 public class DiabetesInfo {
 
     private int patientId;
+    private String firstname;
+    private String lastname;
     private String sex;
     private Date birthdate;
     private List<String> notes;
@@ -18,11 +20,14 @@ public class DiabetesInfo {
     public String toString() {
         return "DiabetesInfo{" +
                 "patientId=" + patientId +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthdate=" + birthdate +
                 ", notes=" + notes +
                 '}';
     }
+
 
     // getters & setters
     public int getPatientId() {
@@ -31,6 +36,22 @@ public class DiabetesInfo {
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getSex() {

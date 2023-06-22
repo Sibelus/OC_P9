@@ -11,6 +11,7 @@ public interface IPersonalRecordService {
 
     List<PersonalRecord> getPatientList();
     Optional<PersonalRecord> getPatientInfos(int id);
+    Optional<PersonalRecord> getPatientInfosByFamilyName(String familyName);
 
     void addPatientInfo(PersonalRecord personalRecord);
     void updatePatientInfo(PersonalRecord personalRecord);

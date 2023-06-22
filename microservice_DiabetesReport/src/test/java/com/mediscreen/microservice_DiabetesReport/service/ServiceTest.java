@@ -55,27 +55,34 @@ public class ServiceTest {
     }
 
     @Test
-    public void testGetDiabetesInfosList() throws Exception {
-        List<PersonalRecordBean> personalRecordBeans = new ArrayList<>();
+    public void testGetDiabetesInfoByFamilyName() throws Exception {
         PersonalRecordBean personalRecordBean = new PersonalRecordBean();
         personalRecordBean.setId(1);
+        personalRecordBean.setLastname("lastname");
         personalRecordBean.setBirthdate(new Date());
         personalRecordBean.setSex("F");
-        personalRecordBeans.add(personalRecordBean);
-        when(personalRecordProxy.getPatientList()).thenReturn(personalRecordBeans);
+        when(personalRecordProxy.getPatientInfoByFamilyName("lastname")).thenReturn(Optional.of(personalRecordBean));
 
         List<PractitionerNoteBean> practitionerNoteBeans = new ArrayList<>();
         when(practitionerNoteProxy.getPatientNotes("1")).thenReturn(Optional.of(practitionerNoteBeans));
 
 
-        List<DiabetesInfo> diabetesInfos = iDiabetesReportService.getDiabetesInfoList();
-        Assertions.assertTrue(diabetesInfos.size() > 0);
+        DiabetesInfo diabetesInfo = iDiabetesReportService.getDiabetesInfoByFamilyName("lastname");
+        Assertions.assertEquals(1, diabetesInfo.getPatientId());
+    }
+
+    @Test
+    public void testGetDiabetesInfoByFamilyName_NonExistentPersonalRecord() throws Exception {
+        when(personalRecordProxy.getPatientInfoByFamilyName("lastname")).thenThrow(PersonalRecordNotFoundException.class);
+        Assertions.assertThrows(PersonalRecordNotFoundException.class, () -> iDiabetesReportService.getDiabetesInfoByFamilyName("lastname"));
     }
 
     @Test
     public void testDiabetesAssessment_None() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestNone");
         diabetesInfo.setSex("M");
         diabetesInfo.setBirthdate(Date.from(Instant.parse("1980-04-09T00:00:00.00Z")));
         diabetesInfo.setNotes(new ArrayList<>());
@@ -88,6 +95,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_ManEarlyOnset() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestEarlyOnset");
         diabetesInfo.setSex("M");
         diabetesInfo.setBirthdate(new Date());
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille", "poids", "fumeur"));
@@ -100,6 +109,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_WomanEarlyOnset() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestEarlyOnset");
         diabetesInfo.setSex("F");
         diabetesInfo.setBirthdate(new Date());
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille", "poids", "fumeur", "anormal", "cholestérol"));
@@ -112,6 +123,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_ManInDanger() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestInDanger");
         diabetesInfo.setSex("M");
         diabetesInfo.setBirthdate(new Date());
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille"));
@@ -124,6 +137,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_WomanInDanger() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestInDanger");
         diabetesInfo.setSex("F");
         diabetesInfo.setBirthdate(new Date());
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille", "poids"));
@@ -136,6 +151,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_OldPersonInDanger() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestInDanger");
         diabetesInfo.setSex("F");
         diabetesInfo.setBirthdate(Date.from(Instant.parse("1980-04-09T00:00:00.00Z")));
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille", "poids", "fumeur", "anormal"));
@@ -148,6 +165,8 @@ public class ServiceTest {
     public void testDiabetesAssessment_ManBorderline() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestBorderline");
         diabetesInfo.setSex("M");
         diabetesInfo.setBirthdate(Date.from(Instant.parse("1980-04-09T00:00:00.00Z")));
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine"));
@@ -160,26 +179,14 @@ public class ServiceTest {
     public void testDiabetesAssessment_Woman3TriggerBorderline() throws Exception {
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         diabetesInfo.setPatientId(1);
+        diabetesInfo.setFirstname("Test");
+        diabetesInfo.setLastname("TestBorderline");
         diabetesInfo.setSex("F");
         diabetesInfo.setBirthdate(Date.from(Instant.parse("1980-04-09T00:00:00.00Z")));
         diabetesInfo.setNotes(List.of("hémoglobine a1c", "microalbumine", "taille"));
 
         String diabetesAssessment = iDiabetesReportService.diabetesAssessment(diabetesInfo);
         Assertions.assertTrue(diabetesAssessment.contains("TestBorderline"));
-    }
-
-    @Test
-    public void testDiabetesAssessmentByRiskLevel() throws Exception {
-        List<DiabetesInfo> diabetesInfos = new ArrayList<>();
-        DiabetesInfo diabetesInfo = new DiabetesInfo();
-        diabetesInfo.setPatientId(1);
-        diabetesInfo.setSex("M");
-        diabetesInfo.setBirthdate(Date.from(Instant.parse("1980-04-09T00:00:00.00Z")));
-        diabetesInfo.setNotes(new ArrayList<>());
-        diabetesInfos.add(diabetesInfo);
-
-        List<String> diabetesAssessments = iDiabetesReportService.diabetesAssessmentByRiskLevel(diabetesInfos, "TestNone");
-        Assertions.assertTrue(diabetesAssessments.get(0).contains("TestNone"));
     }
 
     @Test

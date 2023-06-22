@@ -75,8 +75,8 @@ public class ClientPractitionerNoteController {
     public String getDeletePatientNote(@PathVariable String id, Model model) {
         logger.debug("*** deletePatientNote *** is requested to microservice-PractitionerNote");
         try {
-            practitionerNoteProxy.getDeletePatientNote(id);
             String patId = practitionerNoteProxy.getPatientNote(id).get().getPatId();
+            practitionerNoteProxy.getDeletePatientNote(id);
             return "redirect:/patHistory/" + patId;
         }  catch (PractitionerNoteNotFoundException e ) {
             String errorMessage = (e.getMessage());

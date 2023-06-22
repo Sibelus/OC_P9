@@ -29,47 +29,6 @@ public class DiabetesReportService implements IDiabetesReportService {
 
 
     /**
-     * Method that get info needed for diabetes assessment for all patients
-     * Patient's id, birthdate & sex are getting from microservice-PersonalRecord
-     * Practitioner's notes are getting from microservice-PractitionerNote
-     * If id provided in parameter doesn't have a match in microservice-PersonalRecord database, it will return 400 error
-     * If the practitioner has not written any notes for this patient, the method will provide an empty list
-     * @return {@Link DiabetesInfo}
-     */
-    @Override
-    public List<DiabetesInfo> getDiabetesInfoList() {
-        logger.debug("*** getPatientList *** is requested to microservice-PersonalRecord");
-        List<PersonalRecordBean> personalRecordBeans = personalRecordProxy.getPatientList();
-        List<DiabetesInfo> diabetesInfos = new ArrayList<>();
-
-        for (PersonalRecordBean personalRecordBean : personalRecordBeans) {
-            //DiabetesInfo diabetesInfo = getDiabetesInfo(personalRecordBean.getId());
-            //diabetesInfos.add(diabetesInfo);
-
-            DiabetesInfo diabetesInfo = new DiabetesInfo();
-            diabetesInfo.setPatientId(personalRecordBean.getId());
-            diabetesInfo.setBirthdate(personalRecordBean.getBirthdate());
-            diabetesInfo.setSex(personalRecordBean.getSex());
-
-            logger.debug("*** getPatientNotes *** is requested to microservice-PractitionerNote");
-            Optional<List<PractitionerNoteBean>> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(String.valueOf(personalRecordBean.getId()));
-            if (practitionerNoteBeans.isPresent()) {
-                List<String> notes = new ArrayList<>();
-                for (PractitionerNoteBean practitionerNoteBean : practitionerNoteBeans.get()) {
-                    notes.add(practitionerNoteBean.getContent());
-                }
-                diabetesInfo.setNotes(notes);
-            } else {
-                diabetesInfo.setNotes(new ArrayList<>());
-            }
-
-            diabetesInfos.add(diabetesInfo);
-        }
-
-        return diabetesInfos;
-    }
-
-    /**
      * Method that get all info needed for diabetes assessment
      * Patient's id, birthdate & sex are getting from microservice-PersonalRecord
      * Practitioner's notes are getting from microservice-PractitionerNote
@@ -88,6 +47,46 @@ public class DiabetesReportService implements IDiabetesReportService {
 
         if (personalRecordBean.isPresent()) {
             diabetesInfo.setPatientId(personalRecordBean.get().getId());
+            diabetesInfo.setFirstname(personalRecordBean.get().getFirstname());
+            diabetesInfo.setLastname(personalRecordBean.get().getLastname());
+            diabetesInfo.setBirthdate(personalRecordBean.get().getBirthdate());
+            diabetesInfo.setSex(personalRecordBean.get().getSex());
+        }
+
+        if (practitionerNoteBeans.isPresent()) {
+            List<String> notes = new ArrayList<>();
+            for (PractitionerNoteBean practitionerNoteBean : practitionerNoteBeans.get()) {
+                notes.add(practitionerNoteBean.getContent());
+            }
+            diabetesInfo.setNotes(notes);
+        } else {
+            diabetesInfo.setNotes(new ArrayList<>());
+        }
+
+        return diabetesInfo;
+    }
+
+    /**
+     * Method that get all info needed for diabetes assessment
+     * Patient's id, birthdate & sex are getting from microservice-PersonalRecord
+     * Practitioner's notes are getting from microservice-PractitionerNote
+     * If id provided in parameter doesn't have a match in microservice-PersonalRecord database, it will return 400 error
+     * If the practitioner has not written any notes for this patient, the method will provide an empty list
+     * @param familyName
+     * @return {@Link DiabetesInfo}
+     */
+    @Override
+    public DiabetesInfo getDiabetesInfoByFamilyName(String familyName) {
+        DiabetesInfo diabetesInfo = new DiabetesInfo();
+        logger.debug("*** getPersonalRecord *** is requested to microservice-PersonalRecord");
+        Optional<PersonalRecordBean> personalRecordBean = personalRecordProxy.getPatientInfoByFamilyName(familyName);
+        logger.debug("*** getPatientNotes *** is requested to microservice-PractitionerNote");
+        Optional<List<PractitionerNoteBean>> practitionerNoteBeans = practitionerNoteProxy.getPatientNotes(String.valueOf(personalRecordBean.get().getId()));
+
+        if (personalRecordBean.isPresent()) {
+            diabetesInfo.setPatientId(personalRecordBean.get().getId());
+            diabetesInfo.setFirstname(personalRecordBean.get().getFirstname());
+            diabetesInfo.setLastname(personalRecordBean.get().getLastname());
             diabetesInfo.setBirthdate(personalRecordBean.get().getBirthdate());
             diabetesInfo.setSex(personalRecordBean.get().getSex());
         }
@@ -113,46 +112,28 @@ public class DiabetesReportService implements IDiabetesReportService {
     @Override
     public String diabetesAssessment(DiabetesInfo diabetesInfo) {
         int triggerCount = countTrigger(diabetesInfo);
+        String firstname = diabetesInfo.getFirstname();
+        String lastname = diabetesInfo.getLastname();
         int age = calculateAge(diabetesInfo.getBirthdate());
         String sex = diabetesInfo.getSex();
 
         if ((sex.equals("M") && age < 30 && triggerCount >= 5) || (sex.equals("F") && age < 30 && triggerCount >= 7)) {
             logger.info("Patient sex: {}, age: {} & number of trigger: {} -> diabetes assessment: Early onset", sex, age, triggerCount);
-            return "Patient: Test TestEarlyOnset (age " + age +") diabetes assessment is: Early onset";
+            return "Patient: " + firstname + " " + lastname + " (age " + age +") diabetes assessment is: Early onset";
         }
         if ((sex.equals("M") && age < 30 && triggerCount >= 3) || (sex.equals("F") && age < 30 && triggerCount >= 4) || (age > 30 && triggerCount >= 6)) {
             logger.info("Patient sex: {}, age: {} & number of trigger: {} -> diabetes assessment: In danger", sex, age, triggerCount);
-            return "Patient: Test TestInDanger (age " + age +") diabetes assessment is: In danger";
+            return "Patient: " + firstname + " " + lastname + " (age " + age +") diabetes assessment is: In danger";
         }
         if (age > 30 && triggerCount >= 2) {
             logger.info("Patient age: {} & number of trigger: {} -> diabetes assessment: Borderline", age, triggerCount);
-            return "Patient: Test TestBorderline (age " + age +") diabetes assessment is: Borderline";
+            return "Patient: " + firstname + " " + lastname + " (age " + age +") diabetes assessment is: Borderline";
         }
         if (triggerCount == 0) {
             logger.info("Patient number of trigger: {} -> diabetes assessment: None", triggerCount);
-            return "Patient: Test TestNone (age " + age +") diabetes assessment is: None";
+            return "Patient: " + firstname + " " + lastname + " (age " + age +") diabetes assessment is: None";
         }
-        return "Patient: Test TestUndefined (age " + age +") diabetes assessment is: Undefined";
-    }
-
-    /**
-     * Method that return a list of diabetes assessments for patients concerned by the diabetes risk level provided
-     * @param diabetesInfoList
-     * @param riskLevel
-     * @return
-     */
-    @Override
-    public List<String> diabetesAssessmentByRiskLevel(List<DiabetesInfo> diabetesInfoList, String riskLevel) {
-        List<String> diabetesAssessments = new ArrayList<>();
-
-        for (DiabetesInfo diabetesInfo : diabetesInfoList) {
-            String diabetesAssessment = diabetesAssessment(diabetesInfo);
-            if (diabetesAssessment.contains(riskLevel)) {
-                logger.debug("Patient id: {} match to risk level: {}", diabetesInfo.getPatientId(), riskLevel);
-                diabetesAssessments.add(diabetesAssessment);
-            }
-        }
-        return diabetesAssessments;
+        return "Patient: " + firstname + " " + lastname + " (age " + age +") diabetes assessment is: Undefined";
     }
 
     /**

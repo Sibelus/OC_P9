@@ -9,23 +9,7 @@
         <div class="container">
             <h1>Application Mediscreen</h1>
 
-            <div class="row justify-content-start">
-                <div class="col-4">
-                    <a class="btn btn-primary btn-sm" href="personalRecord/add">New patient</a>
-                </div>
-                <div class="col-4">
-                    <form th:action="@{/assess/familyName}" method="post" class="input-group mb-3">
-                        <input class="btn btn-primary btn-sm" type="submit" value="Diabetes assess">
-                        <select class="form-select" th:name="familyName" aria-label="Default select example">
-                            <option selected>Select diabetes risk level</option>
-                            <option th:name="familyName" th:value="TestNone">TestNone</option>
-                            <option th:name="familyName" th:value="TestBorderline">TestBorderline</option>
-                            <option th:name="familyName" th:value="TestInDanger">TestInDanger</option>
-                            <option th:name="familyName" th:value="TestEarlyOnset">TestEarlyOnset</option>
-                        </select>
-                    </form>
-                </div>
-            </div>
+            <a class="btn btn-primary btn-sm" href="personalRecord/add">New patient</a>
 
             <p></p>
 

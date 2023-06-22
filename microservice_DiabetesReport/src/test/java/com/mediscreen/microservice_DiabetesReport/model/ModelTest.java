@@ -17,11 +17,15 @@ public class ModelTest {
         //GIVEN
         DiabetesInfo diabetesInfo = new DiabetesInfo();
         int patientId = 1;
+        String firstname = "Steff";
+        String lastname = "Bihaille";
         String sex = "F";
         Date birthdate = new Date();
         List<String> notes = new ArrayList<>();
         String toString = "DiabetesInfo{" +
                 "patientId=" + patientId +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthdate=" + birthdate +
                 ", notes=" + notes +
@@ -29,12 +33,16 @@ public class ModelTest {
 
         //WHEN
         diabetesInfo.setPatientId(patientId);
+        diabetesInfo.setFirstname(firstname);
+        diabetesInfo.setLastname(lastname);
         diabetesInfo.setSex(sex);
         diabetesInfo.setBirthdate(birthdate);
         diabetesInfo.setNotes(notes);
 
         //THEN
         Assertions.assertEquals(patientId, diabetesInfo.getPatientId());
+        Assertions.assertEquals(firstname, diabetesInfo.getFirstname());
+        Assertions.assertEquals(lastname, diabetesInfo.getLastname());
         Assertions.assertEquals(sex, diabetesInfo.getSex());
         Assertions.assertEquals(birthdate, diabetesInfo.getBirthdate());
         Assertions.assertEquals(notes, diabetesInfo.getNotes());

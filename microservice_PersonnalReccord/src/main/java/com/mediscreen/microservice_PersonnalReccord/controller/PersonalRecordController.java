@@ -25,7 +25,6 @@ public class PersonalRecordController {
     @GetMapping("/personalRecord/list")
     public List<PersonalRecord> getPatientList() {
         List<PersonalRecord> allPatients = iPersonalRecordService.getPatientList();
-        if (allPatients.isEmpty()) throw new PersonalRecordNotFoundException("There is no data stored in database");
         return allPatients;
     }
 
@@ -34,6 +33,14 @@ public class PersonalRecordController {
         logger.info("GET_personalRecord -> Check if personal record id: {} exists", id);
         Optional<PersonalRecord> patientInfo = iPersonalRecordService.getPatientInfos(id);
         if (!patientInfo.isPresent()) throw new PersonalRecordNotFoundException("There is no data for the id: " + id);
+        return patientInfo;
+    }
+
+    @GetMapping("/personalRecord/familyName/{familyName}")
+    public Optional<PersonalRecord> getPatientInfoByFamilyName(@PathVariable String familyName) {
+        logger.info("GET_personalRecord -> Check if personal record familyName: {} exists", familyName);
+        Optional<PersonalRecord> patientInfo = iPersonalRecordService.getPatientInfosByFamilyName(familyName);
+        if (!patientInfo.isPresent()) throw new PersonalRecordNotFoundException("There is no data for the familyName: " + familyName);
         return patientInfo;
     }
 

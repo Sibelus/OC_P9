@@ -34,6 +34,13 @@ public class PersonalRecordService implements IPersonalRecordService {
     }
 
     @Override
+    public Optional<PersonalRecord> getPatientInfosByFamilyName(String familyName) {
+        Optional<PersonalRecord> patientInfo = personalRecordRepository.findByLastname(familyName);
+        logger.debug("Personal record id is present in database: {}", patientInfo.isPresent());
+        return patientInfo;
+    }
+
+    @Override
     public void addPatientInfo(PersonalRecord personalRecord) {
         logger.debug("Create new personal record to database, {}", personalRecord.toString());
         personalRecordRepository.save(personalRecord);

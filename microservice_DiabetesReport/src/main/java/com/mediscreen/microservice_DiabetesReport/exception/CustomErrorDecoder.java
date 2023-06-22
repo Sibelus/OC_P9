@@ -14,8 +14,9 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
         logger.info("Error intercepted with response status: {}", response.status());
-        if (response.status() == 400 ) {
-            return new PersonalRecordNotFoundException("Invalid request");
+        // PersonalRecord exception handling
+        if (response.status() == 400 && s.contains("PersonalRecordProxy#getPatient")) {
+            return new PersonalRecordNotFoundException("This personal record doesn't exist");
         }
         return defaultErrorDecoder.decode(s, response);
     }

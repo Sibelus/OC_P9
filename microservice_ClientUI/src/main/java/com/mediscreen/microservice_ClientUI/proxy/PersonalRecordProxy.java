@@ -24,7 +24,7 @@ public interface PersonalRecordProxy {
     public Optional<PersonalRecordBean> updatePatientInfo(@PathVariable int id);
 
     @GetMapping("/personalRecord/delete/{id}")
-    public void deletePatientInfo(@PathVariable int id);
+    public String deletePatientInfo(@PathVariable int id);
 
 
 

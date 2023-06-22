@@ -19,7 +19,7 @@ PRIMARY KEY (`id`)
 
 -- DATA INSERTION
 INSERT INTO `personalrecord` (`id`, `firstname`, `lastname`, `birthdate`, `sex`, `address`, `phone`) VALUES
-(1, 'Florence', 'Aignement', '1970-12-31', 'F', 'Secret service headquarter', '100-222-3333'),
-(2, 'Timon', 'Pote', '1949-03-27', 'M', 'Hakuna matata bay', '100-222-3333'),
-(3, 'Teo', 'style', '2008-02-28', 'M', 'Down town street', '100-222-3333'),
-(4, 'Steff', 'Bihaille', '2006-05-03', 'F', 'Secret service headquarter', '100-222-3333');
+(1, 'Test', 'TestNone', '1970-12-31', 'F', 'Secret service headquarter', '100-222-3333'),
+(2, 'Test', 'TestBorderline', '1950-03-27', 'M', 'Hakuna matata bay', '100-222-3333'),
+(3, 'Test', 'TestInDanger', '2009-02-28', 'M', 'Down town street', '100-222-3333'),
+(4, 'Test', 'TestEarlyOnset', '2007-05-03', 'F', 'Secret service headquarter', '100-222-3333');

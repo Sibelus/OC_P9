@@ -4,15 +4,18 @@ import com.mediscreen.microservice_ClientUI.beans.PersonalRecordBean;
 import com.mediscreen.microservice_ClientUI.beans.PractitionerNoteBean;
 import com.mediscreen.microservice_ClientUI.exception.PersonalRecordNotFoundException;
 import com.mediscreen.microservice_ClientUI.exception.PractitionerNoteNotFoundException;
+import com.mediscreen.microservice_ClientUI.proxy.DiabetesReportProxy;
 import com.mediscreen.microservice_ClientUI.proxy.PersonalRecordProxy;
 import com.mediscreen.microservice_ClientUI.proxy.PractitionerNoteProxy;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -21,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,6 +41,8 @@ public class ControllerTest {
     private PersonalRecordProxy personalRecordProxy;
     @MockBean
     private PractitionerNoteProxy practitionerNoteProxy;
+    @MockBean
+    private DiabetesReportProxy diabetesReportProxy;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -46,13 +53,11 @@ public class ControllerTest {
     }
 
 
-
     /* ------- ErrorController ------- */
     @Test
     public void testGet_Error() throws Exception {
         mockMvc.perform(get("/error")).andExpect(status().isOk());
     }
-
 
 
     /* ------- PersonalRecordController ------- */
@@ -82,7 +87,7 @@ public class ControllerTest {
     public void testGet_PersonalRecordById_NonExistentId() throws Exception {
         when(personalRecordProxy.getPatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
         mockMvc.perform(get("/personalRecord/1"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful());
     }
 
 
@@ -113,7 +118,7 @@ public class ControllerTest {
     public void testGet_UpdatePersonalRecordById_NonExistentId() throws Exception {
         when(personalRecordProxy.updatePatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
         mockMvc.perform(get("/personalRecord/update/1"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful());
     }
 
 
@@ -121,6 +126,12 @@ public class ControllerTest {
     @Test
     public void testGet_DeletePersonalRecordById() throws Exception {
         mockMvc.perform(get("/personalRecord/delete/1")).andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    public void testGet_DeletePersonalRecordById_NonExistentId() throws Exception {
+        when(personalRecordProxy.deletePatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
+        mockMvc.perform(get("/personalRecord/delete/1")).andExpect(status().is2xxSuccessful());
     }
 
 
@@ -264,9 +275,6 @@ public class ControllerTest {
     }
 
 
-
-
-
     /* ------- PractitionerNoteController ------- */
     @Test
     public void testGet_PractitionerNotesByPatId() throws Exception {
@@ -292,14 +300,14 @@ public class ControllerTest {
     @Test
     public void testGet_PractitionerNoteById_NonExistentId() throws Exception {
         when(practitionerNoteProxy.getPatientNote("1")).thenThrow(PractitionerNoteNotFoundException.class);
-        mockMvc.perform(get("/patHistory/get/1")).andExpect(status().is4xxClientError());
+        mockMvc.perform(get("/patHistory/get/1")).andExpect(status().is2xxSuccessful());
     }
 
 
     // GET create new personal record
     @Test
     public void testGet_PractitionerNoteAdd() throws Exception {
-        mockMvc.perform(get("/patHistory/add")).andExpect(status().isOk());
+        mockMvc.perform(get("/patHistory/add/1")).andExpect(status().isOk());
     }
 
 
@@ -317,9 +325,9 @@ public class ControllerTest {
     }
 
     @Test
-    public void testGet_UpdatePractitionerNote() throws Exception {
+    public void testGet_UpdatePractitionerNote_NonExistentPatId() throws Exception {
         when(practitionerNoteProxy.getUpdatePatientNote("1")).thenThrow(PractitionerNoteNotFoundException.class);
-        mockMvc.perform(get("/patHistory/update/1")).andExpect(status().is4xxClientError());
+        mockMvc.perform(get("/patHistory/update/1")).andExpect(status().is2xxSuccessful());
     }
 
 
@@ -339,7 +347,7 @@ public class ControllerTest {
     // POST create new practitioner note
     @Test
     public void testPost_NewPractitionerNote() throws Exception {
-        mockMvc.perform(post("/patHistory/add")
+        mockMvc.perform(post("/patHistory/add/1")
                         .param("content", "test content")
                         .param("patId", "1"))
                 .andExpect(status().is3xxRedirection())
@@ -361,5 +369,31 @@ public class ControllerTest {
                         .param("content", "test content updated"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/patHistory/1"));
+    }
+
+
+
+    /* ------- DiabetesReportController ------- */
+
+    // POST diabetes assessment by id
+    @Test
+    public void testPost_DiabetesAssessmentById() throws Exception {
+        String diabetesAssessment = "Patient: Test TestNone (age 52) diabetes assessment is: None";
+        when(diabetesReportProxy.postDiabetesAssessmentById(1)).thenReturn(diabetesAssessment);
+
+        mockMvc.perform(post("/assess/id")
+                        .param("patId", "1"))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    // POST diabetes assessment by familyName
+    @Test
+    public void testPost_DiabetesAssessmentByFamilyName() throws Exception {
+        String diabetesAssessment = "Patient: Test TestNone (age 52) diabetes assessment is: None";
+        when(diabetesReportProxy.postDiabetesAssessmentByFamilyName("TestNone")).thenReturn(diabetesAssessment);
+
+        mockMvc.perform(post("/assess/familyName")
+                        .param("familyName", "TestNone"))
+                .andExpect(status().is2xxSuccessful());
     }
 }

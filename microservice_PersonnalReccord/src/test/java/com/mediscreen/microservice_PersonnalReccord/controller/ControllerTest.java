@@ -67,6 +67,17 @@ public class ControllerTest {
                 .andExpect(status().is4xxClientError());
     }
 
+    @Test
+    public void testGet_PersonalRecordByFamilyName() throws Exception {
+        mockMvc.perform(get("/personalRecord/familyName/TestNone")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGet_PersonalRecordByFamilyName_WithNonExistentFamilyName() throws Exception {
+        mockMvc.perform(get("/personalRecord/familyName/Dupond"))
+                .andExpect(status().is4xxClientError());
+    }
+
 
     // GET update personal record
     @Test

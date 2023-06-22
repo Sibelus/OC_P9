@@ -9,10 +9,9 @@ import java.util.List;
 @Service
 public interface IDiabetesReportService {
 
-    List<DiabetesInfo> getDiabetesInfoList();
     DiabetesInfo getDiabetesInfo(int id);
+    DiabetesInfo getDiabetesInfoByFamilyName(String familyName);
     String diabetesAssessment(DiabetesInfo diabetesInfo);
-    List<String> diabetesAssessmentByRiskLevel(List<DiabetesInfo> diabetesInfoList, String riskLevel);
     int calculateAge(Date birthdate);
     int countTrigger(DiabetesInfo diabetesInfo);
 }

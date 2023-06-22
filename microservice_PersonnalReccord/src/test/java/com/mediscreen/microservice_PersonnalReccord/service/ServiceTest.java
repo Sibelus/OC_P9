@@ -28,7 +28,13 @@ public class ServiceTest {
     @Test
     public void testGetPatientInfos() throws Exception {
         PersonalRecord personalRecord = iPersonalRecordService.getPatientInfos(1).get();
-        Assertions.assertEquals("Florence", personalRecord.getFirstname());
+        Assertions.assertEquals("Test", personalRecord.getFirstname());
+    }
+
+    @Test
+    public void testGetPatientInfoByFamilyName() throws Exception {
+        PersonalRecord personalRecord = iPersonalRecordService.getPatientInfosByFamilyName("TestNone").get();
+        Assertions.assertEquals("Test", personalRecord.getFirstname());
     }
 
     @Test
