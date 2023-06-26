@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Model class that defined all attributes needed for diabetes assessment
+ */
 @Component
 public class DiabetesInfo {
 

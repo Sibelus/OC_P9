@@ -1,16 +1,21 @@
 package com.mediscreen.microservice_PractitionerNote.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+/**
+ * Model class that defined all attributes and their constraints rules of a practitioner note related to the patient id = patId
+ */
 @Document(collection = "practitionerNote")
 public class PractitionerNote {
 
     private String id;
     private String patId;
+    @NotBlank(message = "content is mandatory")
     private String content;
 
     @PastOrPresent

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.PastOrPresent;
 
 import java.util.Date;
 
+/**
+ * Bean class that defined all attributes and their constraints rules of a practitioner note related to the patient id = patId
+ */
 public class PractitionerNoteBean {
 
     private String id;

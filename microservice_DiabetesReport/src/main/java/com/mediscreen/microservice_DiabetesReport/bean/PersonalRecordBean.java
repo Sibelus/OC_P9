@@ -8,6 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+/**
+ * Bean class that defined all attributes and their constraints rules of a personal record for a patient
+ */
 public class PersonalRecordBean {
 
     @NotNull

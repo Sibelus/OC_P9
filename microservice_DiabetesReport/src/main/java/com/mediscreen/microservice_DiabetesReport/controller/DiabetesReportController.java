@@ -19,6 +19,12 @@ public class DiabetesReportController {
 
 
     // postMapping method
+
+    /**
+     * Method that collect info from a patient by his id (personal record and practitioner notes) and assess diabetes risk level
+     * @param patId -> refer to the patient id
+     * @return a string that contains demographic info and diabetes assessment
+     */
     @PostMapping("/assess/id")
     public String postDiabetesAssessmentById(@RequestParam int patId) {
         DiabetesInfo diabetesInfo = iDiabetesReportService.getDiabetesInfo(patId);
@@ -26,6 +32,11 @@ public class DiabetesReportController {
         return diabetesAssessment;
     }
 
+    /**
+     * Method that collect info from a patient by his id (personal record and practitioner notes) and assess diabetes risk level
+     * @param familyName -> refer to the patient family name
+     * @return a string that contains demographic info and diabetes assessment
+     */
     @PostMapping("/assess/familyName")
     public String postDiabetesAssessmentByFamilyName(@RequestParam String familyName) {
         DiabetesInfo diabetesInfo = iDiabetesReportService.getDiabetesInfoByFamilyName(familyName);

@@ -18,6 +18,13 @@ public class ClientDiabetesReportController {
 
 
     // postMapping method
+
+    /**
+     * Method that make diabetes assessment of a patient by its id
+     * @param patId -> refer to the id of a personal record
+     * @param model
+     * @return the diabetes assessment page
+     */
     @PostMapping("/assess/id")
     public String postDiabetesAssessmentById(@RequestParam int patId, Model model) {
         logger.debug("*** postDiabetesAssessmentById *** is requested to microservice-DiabetesReport");
@@ -26,6 +33,12 @@ public class ClientDiabetesReportController {
         return "diabetesReport/report";
     }
 
+    /**
+     * Method that make diabetes assessment of a patient by its family name
+     * @param familyName -> refer to the family name of a personal record
+     * @param model
+     * @return the diabetes assessment page
+     */
     @PostMapping("/assess/familyName")
     public String postDiabetesAssessmentByFamilyName(@RequestParam String familyName, Model model) {
         logger.debug("*** postDiabetesAssessmentByFamilyName *** is requested to microservice-DiabetesReport");

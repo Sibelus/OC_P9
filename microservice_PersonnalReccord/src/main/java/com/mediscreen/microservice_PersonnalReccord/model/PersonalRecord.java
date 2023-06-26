@@ -9,6 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+/**
+ * Model class that defined all attributes and their constraints of a personal record for a patient
+ */
 @Entity
 @Table(name = "personalrecord")
 public class PersonalRecord {
