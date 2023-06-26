@@ -21,7 +21,12 @@ public class PractitionerNoteController {
     Logger logger = LoggerFactory.getLogger(PractitionerNoteController.class);
 
 
-
+    /**
+     * Method that get all the notes of a patient by its patient id
+     * @param patId -> refer to the patient id
+     * @return a list of notes, if there is no notes for this patient it will return an empty list
+     * @throws Exception
+     */
     @GetMapping("/patHistory/{patId}")
     public List<PractitionerNote> getPatientNotes(@PathVariable("patId") String patId) throws Exception {
         logger.info("GET_patHistory -> Check if patient history id: {} exists", patId);
@@ -29,6 +34,13 @@ public class PractitionerNoteController {
         return practitionerNotes;
     }
 
+    /**
+     * Method that get a note by its id
+     * @param id -> refer to the note's id
+     * @return if practitionerNote's id exist it will return {@link PractitionerNote}
+     *         else it will throw a {@link PractitionerNoteNotFoundException}
+     * @throws Exception
+     */
     @GetMapping("/patHistory/get/{id}")
     public Optional<PractitionerNote> getPatientNote(@PathVariable String id) throws Exception {
         logger.info("GET_patHistory -> Check if patient history id: {} exists", id);
@@ -37,6 +49,13 @@ public class PractitionerNoteController {
         return practitionerNote;
     }
 
+    /**
+     * Method that get a note by its id to update its content
+     * @param id -> refer to the note's id
+     * @return if practitionerNote's id exist it will return {@link PractitionerNote}
+     *         else it will throw a {@link PractitionerNoteNotFoundException}
+     * @throws Exception
+     */
     @GetMapping("/patHistory/update/{id}")
     public Optional<PractitionerNote> getUpdatePatientNote(@PathVariable String id) throws Exception {
         logger.info("UPDATE_patHistory -> Check if patient history id: {} exists", id);
@@ -45,6 +64,12 @@ public class PractitionerNoteController {
         return practitionerNote;
     }
 
+    /**
+     * Method that delete a note by its id
+     * If note's id doesn't exist it will throw a {@link PractitionerNoteNotFoundException}
+     * @param id -> refer to the note's id
+     * @throws Exception
+     */
     @GetMapping("/patHistory/delete/{id}")
     public void getDeletePatientNote(@PathVariable String id) throws Exception {
         logger.info("DELETE_patHistory -> Check if patient history id: {} exists", id);
@@ -56,10 +81,30 @@ public class PractitionerNoteController {
         }
     }
 
+    /**
+     * Method that delete the list of notes related to the patient id = patId
+     * @param patId -> refer to the patient id
+     * @throws Exception
+     */
+    @GetMapping("/patHistory/delete/list/{patId}")
+    public void getDeletePatientNotes(@PathVariable("patId") String patId) throws Exception {
+        logger.info("GET_patHistory -> Check if patient history id: {} exists", patId);
+        List<PractitionerNote> practitionerNotes = iPractitionerNoteService.getPatientNotes(patId);
+        if (!practitionerNotes.isEmpty()) {
+            iPractitionerNoteService.deletePatientNotes(practitionerNotes);
+        }
+    }
 
 
 
+    // postMapping methods
 
+    /**
+     * Method that save a new note into database
+     * @param practitionerNote {@link PractitionerNote}
+     * @return a ResponseEntity<PractitionerNote> {@link ResponseEntity} {@link PractitionerNote} with http status 201
+     * @throws Exception
+     */
     @PostMapping("/patHistory/add")
     public ResponseEntity<PractitionerNote> addPatientNote(@RequestBody PractitionerNote practitionerNote) throws Exception {
         logger.info("Create request body contains, {}", practitionerNote.toString());
@@ -67,6 +112,12 @@ public class PractitionerNoteController {
         return new ResponseEntity<PractitionerNote>(practitionerNote, HttpStatus.CREATED);
     }
 
+    /**
+     * Method that update the content of a note into database
+     * @param practitionerNote {@link PractitionerNote}
+     * @return a ResponseEntity<PractitionerNote> {@link ResponseEntity} {@link PractitionerNote} with http status 200
+     * @throws Exception
+     */
     @PostMapping("/patHistory/update")
     public ResponseEntity<PractitionerNote> updatePatientNote(@RequestBody PractitionerNote practitionerNote) throws Exception {
         logger.info("Update request body contains, {}", practitionerNote.toString());

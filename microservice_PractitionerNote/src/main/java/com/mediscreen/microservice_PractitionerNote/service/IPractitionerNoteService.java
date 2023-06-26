@@ -14,4 +14,5 @@ public interface IPractitionerNoteService {
     void addPatientNote(PractitionerNote practitionerNote);
     void updatePatientNote(PractitionerNote practitionerNote);
     void deletePatientNote(PractitionerNote practitionerNote);
+    void deletePatientNotes(List<PractitionerNote> practitionerNotes);
 }

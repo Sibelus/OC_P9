@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -89,5 +90,36 @@ public class ServiceTest {
 
         //THEN
         Assertions.assertTrue(practitionerNote1.isEmpty());
+    }
+
+    @Test
+    public void testDeletePatientNotes() throws Exception {
+        //GIVEN
+        List<PractitionerNote> practitionerNotes = new ArrayList<>();
+        PractitionerNote practitionerNote = new PractitionerNote();
+        practitionerNote.setId("1");
+        practitionerNote.setPatId("1");
+        practitionerNote.setDate(new Date());
+        practitionerNote.setContent("test content");
+        iPractitionerNoteService.addPatientNote(practitionerNote);
+
+        PractitionerNote practitionerNote2 = new PractitionerNote();
+        practitionerNote2.setId("2");
+        practitionerNote2.setPatId("1");
+        practitionerNote2.setDate(new Date());
+        practitionerNote2.setContent("test content");
+        iPractitionerNoteService.addPatientNote(practitionerNote2);
+
+        practitionerNotes.add(practitionerNote);
+        practitionerNotes.add(practitionerNote2);
+
+        //WHEN
+        iPractitionerNoteService.deletePatientNotes(practitionerNotes);
+        Optional<PractitionerNote> deletedPractitionerNote1 = iPractitionerNoteService.getPatientNote("1");
+        Optional<PractitionerNote> deletedPractitionerNote2 = iPractitionerNoteService.getPatientNote("2");
+
+        //THEN
+        Assertions.assertTrue(deletedPractitionerNote1.isEmpty());
+        Assertions.assertTrue(deletedPractitionerNote2.isEmpty());
     }
 }
