@@ -37,10 +37,10 @@ public class ControllerTest {
 
 
     // Method that create new practitioner note for test
-    public PractitionerNote createNoteForTest() {
+    public PractitionerNote createNoteForTest(String id, String patId) {
         PractitionerNote practitionerNote = new PractitionerNote();
-        practitionerNote.setId("1");
-        practitionerNote.setPatId("1");
+        practitionerNote.setId(id);
+        practitionerNote.setPatId(patId);
         practitionerNote.setDate(new Date());
         practitionerNote.setContent("test content");
 
@@ -69,7 +69,7 @@ public class ControllerTest {
     @Test
     public void testGet_PractitionerNoteById() throws Exception {
         mockMvc.perform(post("/patHistory/add")
-                .content(asJsonString(createNoteForTest()))
+                .content(asJsonString(createNoteForTest("1", "1")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -87,7 +87,7 @@ public class ControllerTest {
     @Test
     public void testGet_UpdatePractitionerNoteById() throws Exception {
         mockMvc.perform(post("/patHistory/add")
-                .content(asJsonString(createNoteForTest()))
+                .content(asJsonString(createNoteForTest("1", "1")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -101,11 +101,11 @@ public class ControllerTest {
     }
 
 
-    // GET update practitioner note
+    // GET delete practitioner note(s)
     @Test
     public void testGet_DeletePractitionerNoteById() throws Exception {
         mockMvc.perform(post("/patHistory/add")
-                .content(asJsonString(createNoteForTest()))
+                .content(asJsonString(createNoteForTest("1", "10")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -117,12 +117,27 @@ public class ControllerTest {
         mockMvc.perform(get("/patHistory/delete/1")).andExpect(status().is4xxClientError());
     }
 
+    @Test
+    public void testGet_DeletePractitionerNotesByPatId() throws Exception {
+        mockMvc.perform(post("/patHistory/add")
+                .content(asJsonString(createNoteForTest("1", "10")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(post("/patHistory/add")
+                .content(asJsonString(createNoteForTest("2", "10")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/patHistory/delete/list/10")).andExpect(status().is2xxSuccessful());
+    }
+
 
     // POST practitioner note
     @Test
     public void testPost_NewPractitionerNote() throws Exception {
         mockMvc.perform(post("/patHistory/add")
-                .content(asJsonString(createNoteForTest()))
+                .content(asJsonString(createNoteForTest("1", "1")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated())
@@ -136,7 +151,7 @@ public class ControllerTest {
     @Test
     public void testPost_UpdatePractitionerNote() throws Exception {
         mockMvc.perform(post("/patHistory/update")
-                        .content(asJsonString(createNoteForTest()))
+                        .content(asJsonString(createNoteForTest("1", "1")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());

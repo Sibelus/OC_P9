@@ -304,10 +304,26 @@ public class ControllerTest {
     }
 
 
-    // GET create new personal record
+    // GET create new practitioner note
     @Test
     public void testGet_PractitionerNoteAdd() throws Exception {
+        PersonalRecordBean personalRecordBean = new PersonalRecordBean();
+        personalRecordBean.setId(1);
+        personalRecordBean.setFirstname("Steff");
+        personalRecordBean.setLastname("Bihaille");
+        personalRecordBean.setBirthdate(new Date());
+        personalRecordBean.setSex("F");
+        personalRecordBean.setAddress("Secret service headquarter");
+        personalRecordBean.setPhone("111-222-3333");
+        when(personalRecordProxy.getPatientInfo(1)).thenReturn(Optional.of(personalRecordBean));
+
         mockMvc.perform(get("/patHistory/add/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGet_PractitionerNoteAdd_NonExistentRelatedPersonalRecord() throws Exception {
+        when(personalRecordProxy.getPatientInfo(1)).thenThrow(PersonalRecordNotFoundException.class);
+        mockMvc.perform(get("/patHistory/add/1")).andExpect(status().is2xxSuccessful());
     }
 
 
@@ -343,6 +359,12 @@ public class ControllerTest {
         mockMvc.perform(get("/patHistory/delete/1")).andExpect(status().is3xxRedirection());
     }
 
+    @Test
+    public void testGet_DeletePractitionerNoteById_NonExistentId() throws Exception {
+        when(practitionerNoteProxy.getPatientNote("1")).thenThrow(PractitionerNoteNotFoundException.class);
+        mockMvc.perform(get("/patHistory/delete/1")).andExpect(status().is2xxSuccessful());
+    }
+
 
     // POST create new practitioner note
     @Test
@@ -352,6 +374,14 @@ public class ControllerTest {
                         .param("patId", "1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/patHistory/1"));
+    }
+
+    @Test
+    public void testPost_NewPractitionerNote_NonValidResult() throws Exception {
+        mockMvc.perform(post("/patHistory/add/1")
+                        .param("content", ""))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeHasFieldErrorCode("practitionerNoteBean", "content", "NotBlank"));
     }
 
 
@@ -369,6 +399,14 @@ public class ControllerTest {
                         .param("content", "test content updated"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/patHistory/1"));
+    }
+
+    @Test
+    public void testPost_UpdatePractitionerNote_NonValidResult() throws Exception {
+        mockMvc.perform(post("/patHistory/update/1")
+                        .param("content", ""))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeHasFieldErrorCode("practitionerNoteBean", "content", "NotBlank"));
     }
 
 
