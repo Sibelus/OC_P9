@@ -14,7 +14,7 @@
     <div class="row">
         <form action="#" th:action="@{/patHistory/add/{patId}(patId=${patId})}" th:object="${practitionerNoteBean}" method="post" class="form-horizontal" style="width: 100%">
             <!-- fields -->
-            <div class="form-floating">
+            <div class="form-group" style="padding:  15px 15px 0px 15px">
                 <label for="content">Comments</label>
                 <textarea class="form-control" th:field="*{content}" id="content" placeholder="Leave a comment here" style="height: 100px"></textarea>
                 <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
