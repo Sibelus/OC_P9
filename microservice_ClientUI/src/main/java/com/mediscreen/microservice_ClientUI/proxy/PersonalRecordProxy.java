@@ -15,7 +15,7 @@ import java.util.Optional;
  * Interface that link microservice-ClientUI to microservice-PersonalRecord and granted access to listed methods
  * It permits to manage everything concerning personal record
  */
-@FeignClient(name = "microservice-PersonalRecord", url = "localhost:8081")
+@FeignClient(name = "microservice-PersonalRecord", url = "personalrecord:8081")
 public interface PersonalRecordProxy {
 
     // getMapping methods

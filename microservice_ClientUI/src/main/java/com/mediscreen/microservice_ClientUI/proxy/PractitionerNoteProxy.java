@@ -16,7 +16,7 @@ import java.util.Optional;
  * Interface that link microservice-ClientUI to microservice-PractitionerNote and granted access to listed methods
  * It permits to manage everything concerning patient note
  */
-@FeignClient(name = "microservice-PractitionerNote", url = "localhost:8082")
+@FeignClient(name = "microservice-PractitionerNote", url = "practitionernote:8082")
 public interface PractitionerNoteProxy {
 
 

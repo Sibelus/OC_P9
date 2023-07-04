@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Interface that link microservice-ClientUI to microservice-DiabetesReport and granted access to listed methods
  * It permits to manage everything concerning diabetes report
  */
-@FeignClient(name = "microservice-DiabetesReport", url = "localhost:8083")
+@FeignClient(name = "microservice-DiabetesReport", url = "diabetesreport:8083")
 public interface DiabetesReportProxy {
 
 
